@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/ai.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body" style="padding-bottom: 20px;">
+        
+        <!-- Dedicated AI Workspace Container -->
+        <div class="ai-workspace-container">
+          
+          <!-- AI Workspace Top Header -->
+          <div class="ai-workspace-header">
+            <div class="ai-header-left">
+              <div class="ai-logo-orb">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div class="ai-title-wrap">
+                <h1>
+                  <span class="silver-text">CO-ORD AI</span>
+                  <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">v2.4 Engine</span>
+                </h1>
+                <p>Your team's intelligent coordination &amp; workload balancing assistant.</p>
+              </div>
+            </div>
+
+            <div class="ai-status-pill">
+              <span class="ai-status-dot-pulse"></span>
+              <span id="aiStatusIndicator">Ready • Project Synchronized</span>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons Strip -->
+          <div class="ai-quick-actions-bar">
+            <button class="ai-quick-btn" data-action="allocate">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <span>Suggest task allocation</span>
+            </button>
+            <button class="ai-quick-btn" data-action="help">
+              <i class="fa-solid fa-handshake-angle"></i>
+              <span>Find someone who can help</span>
+            </button>
+            <button class="ai-quick-btn" data-action="workload">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Analyze team workload</span>
+            </button>
+            <button class="ai-quick-btn" data-action="progress">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Summarize project progress</span>
+            </button>
+            <button class="ai-quick-btn" data-action="resources">
+              <i class="fa-solid fa-bookmark"></i>
+              <span>Find relevant resources</span>
+            </button>
+          </div>
+
+          <!-- AI Chat Message Stream -->
+          <div class="ai-chat-stream" id="aiChatStream">
+            <!-- Messages and Recommendation Cards rendered dynamically -->
+          </div>
+
+          <!-- Analyzing Status Banner -->
+          <div class="ai-analyzing-banner" id="aiAnalyzingBanner" style="display: none;">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 0.9rem;"></i>
+            <span>AI is analyzing team workload, skills matrix, and project dependencies...</span>
+          </div>
+
+          <!-- Bottom Prompt Input -->
+          <div class="ai-input-wrapper">
+            <form id="aiChatForm" style="display: flex; width: 100%; gap: 12px;">
+              <input type="text" id="aiChatInput" class="ai-input-field" placeholder="Ask AI about task allocation, skill matching, or sprint bottlenecks..." autocomplete="off">
+              <button type="submit" class="btn btn-primary" style="padding: 12px 22px;">
+                <span>Send</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Dedicated AI Task Allocation Modal -->
+  <div class="modal-backdrop" id="aiAllocationModal">
+    <div class="modal" style="max-width: 560px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i>
+          <span>AI Task Allocation Engine</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size: 0.86rem; color: var(--text-silver-secondary); margin-bottom: 16px;">
+          The AI engine suggests redistributing this task to optimize team velocity and avoid developer bottlenecks.
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-silver); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <span class="text-xs text-muted" style="text-transform: uppercase;">Unassigned Task</span>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-silver-bright);" id="aiModalTaskTitle">Optimize async database queries</div>
+            <div style="display: flex; gap: 6px; margin-top: 6px;" id="aiModalTaskSkills"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+            <div>
+              <span class="text-xs text-muted">Current Assignee</span>
+              <div style="font-weight: 600; color: var(--text-silver-muted);" id="aiModalCurrentAssignee">Unassigned</div>
+            </div>
+            <div>
+              <span class="text-xs text-muted">Suggested Member</span>
+              <div style="font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 6px;">
+                <span id="aiModalSuggestedMember">Rahul</span>
+                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;" id="aiModalMatchScore">94% Match</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: 10px 14px; background: rgba(5, 7, 14, 0.6); border-left: 3px solid #38bdf8; border-radius: 4px; font-size: 0.84rem; color: var(--text-silver-secondary);">
+            <i class="fa-solid fa-brain" style="color: #38bdf8; margin-right: 6px;"></i>
+            <span id="aiModalReason">Strong skill match with moderate current workload.</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn btn-ghost btn-sm" id="aiModalRejectBtn">Dismiss</button>
+        <div style="display: flex; gap: 10px;">
+          <a href="team.html" class="btn btn-silver btn-sm">Change Member</a>
+          <button class="btn btn-primary btn-sm" id="aiModalAcceptBtn">
+            <i class="fa-solid fa-check"></i>
+            <span>Accept Allocation</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/ai.js"></script>
+</body>
+</html>

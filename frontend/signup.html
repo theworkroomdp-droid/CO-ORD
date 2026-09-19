@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="auth-page-wrapper">
+    <div class="auth-split-container">
+      
+      <!-- Left: Sign-Up Form Pane -->
+      <div class="auth-form-pane" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="auth-form-box" style="max-width: 480px;">
+          
+          <div class="auth-header" style="margin-bottom: 20px;">
+            <a href="index.html" class="auth-brand-logo">
+              <div class="logo-mark"><img class="brand-mascot-logo" src="assets/coord-mascot.png" alt="CO-ORD mascot"></div>
+              <div class="logo-text-wrap">
+                <span class="brand-title">CO-ORD</span>
+                <span class="brand-tagline">Coordinate • Collaborate • Complete</span>
+              </div>
+            </a>
+            
+            <h1 class="auth-title" style="font-size: 1.65rem;">Create your account</h1>
+            <p class="auth-subtitle">Join your hackathon team and coordinate with AI precision.</p>
+          </div>
+
+          <form id="signupForm" class="auth-form" style="gap: 14px;">
+            
+            <!-- Full Name -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="signupName">Full Name</label>
+              <div class="input-with-icon">
+                <i class="fa-regular fa-user"></i>
+                <input type="text" id="signupName" class="input-control" placeholder="e.g. Alex Rivera" value="Alex Rivera" required>
+              </div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="signupEmail">Email Address</label>
+              <div class="input-with-icon">
+                <i class="fa-regular fa-envelope"></i>
+                <input type="email" id="signupEmail" class="input-control" placeholder="alex@university.edu" value="alex@coord.io" required>
+              </div>
+            </div>
+
+            <!-- Passwords Row -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="signupPassword">Password</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-lock"></i>
+                  <input type="password" id="signupPassword" class="input-control" placeholder="••••••••" value="password123" required>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="signupConfirmPassword">Confirm Password</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <input type="password" id="signupConfirmPassword" class="input-control" placeholder="••••••••" value="password123" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role Selector (Student or Working Professional) -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">I am joining as:</label>
+              <div class="role-selector-grid">
+                <div class="role-card selected" data-category="student">
+                  <div class="role-title">
+                    <span>🎓 Student</span>
+                  </div>
+                  <div class="role-desc">University student or hackathon team member</div>
+                </div>
+                <div class="role-card" data-category="professional">
+                  <div class="role-title">
+                    <span>💼 Professional</span>
+                  </div>
+                  <div class="role-desc">Software engineer, designer, or project mentor</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Tag Input -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between;">
+                <span>Skills &amp; Specialties</span>
+                <span style="font-size: 0.72rem; color: var(--deep-blue-300);">Click chips or type + Enter</span>
+              </label>
+              <div class="skills-input-wrapper">
+                <div id="skillsTagsContainer" class="skills-tags-container"></div>
+                <input type="text" id="skillsTextInput" class="skills-text-input" placeholder="Type skill...">
+              </div>
+              <div class="skills-suggestions">
+                <span class="skill-chip-preset">+ Python</span>
+                <span class="skill-chip-preset">+ FastAPI</span>
+                <span class="skill-chip-preset">+ HTML/CSS</span>
+                <span class="skill-chip-preset">+ JavaScript</span>
+                <span class="skill-chip-preset">+ UI/UX</span>
+                <span class="skill-chip-preset">+ PyTorch</span>
+                <span class="skill-chip-preset">+ React</span>
+                <span class="skill-chip-preset">+ PostgreSQL</span>
+              </div>
+            </div>
+
+            <!-- Brief Introduction Bio -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="signupBio">Brief Introduction</label>
+              <textarea id="signupBio" class="input-control" style="min-height: 60px;" placeholder="Tell your teammates what you like building and where you excel...">Passionate developer interested in building collaborative web tools and AI integrations.</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 6px;">
+              <span>Create Account &amp; Enter Workspace</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div style="text-align: center; font-size: 0.86rem; color: var(--text-silver-secondary);">
+              Already have an account? <a href="login.html" style="color: #38bdf8; font-weight: 600;">Sign in here</a>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+      <!-- Right: Igloo.inc Canvas Animation Visual Pane -->
+      <div class="auth-visual-pane">
+        <canvas id="iglooCanvas"></canvas>
+
+        <div class="visual-top-badge">
+          <span class="pulsing-dot"></span>
+          <span>Intelligent Team Matching Network</span>
+        </div>
+
+        <div class="floating-cards-container">
+          
+          <div class="float-card">
+            <div class="float-card-header">
+              <div class="float-card-tag">
+                <i class="fa-solid fa-brain"></i>
+                <span>Skill Graph Matching</span>
+              </div>
+              <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">Active</span>
+            </div>
+            <div class="float-card-content">
+              Your skills are matched with unassigned tasks &amp; teammate requests in real time.
+            </div>
+          </div>
+
+          <div class="float-card">
+            <div class="float-card-header">
+              <div class="float-card-tag" style="color: #60a5fa;">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Workload Balance</span>
+              </div>
+              <span class="badge badge-workload-balanced">Optimal</span>
+            </div>
+            <div class="float-card-content" style="font-size: 0.84rem;">
+              Never get overwhelmed or stranded. CO-ORD prevents bottlenecks before they happen.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="visual-quote-box">
+          <div class="visual-quote-tagline">
+            "Every member's skills count.<br>
+            <span class="silver-text">Every task in sync."</span>
+          </div>
+          <p class="visual-quote-sub">
+            Build with your team in full alignment — from initial ideation to the final hackathon presentation.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { initIglooAnimation } from "./js/auth-animation.js";
+    initIglooAnimation("iglooCanvas");
+  </script>
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

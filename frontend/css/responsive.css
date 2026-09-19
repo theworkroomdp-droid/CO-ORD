@@ -1,0 +1,160 @@
+/* ==========================================================================
+   CO-ORD RESPONSIVE DESIGN & MOBILE DRAWER STYLES
+   ========================================================================== */
+
+/* Mobile Backdrop Overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 8, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 95;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Tablet / Medium Screens (max-width: 1100px) */
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .project-header-inner {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+
+  .project-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .search-box {
+    width: 240px;
+  }
+}
+
+/* Small Tablet & Mobile (max-width: 860px) */
+@media (max-width: 860px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+    width: 280px;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  .topbar {
+    padding: 0 18px;
+  }
+
+  .page-body {
+    padding: 20px 16px 40px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .kanban-board {
+    overflow-x: auto;
+    padding-bottom: 16px;
+    display: flex !important;
+    gap: 16px;
+  }
+
+  .kanban-column {
+    min-width: 280px;
+    flex: 0 0 280px;
+  }
+
+  .auth-split-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth-visual-pane {
+    display: none !important;
+  }
+
+  .auth-card-pane {
+    padding: 30px 20px !important;
+  }
+
+  .workspace-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    padding-bottom: 4px;
+  }
+
+  .topbar-left .search-box {
+    display: none;
+  }
+
+  .chat-container {
+    height: 70vh !important;
+  }
+
+  .chat-members-sidebar {
+    display: none !important;
+  }
+}
+
+/* Extra Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.35rem; }
+
+  .topbar-right .user-name {
+    display: none;
+  }
+
+  .btn-text-hide-mobile span {
+    display: none;
+  }
+
+  .toast {
+    min-width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+  }
+
+  .modal {
+    margin: 10px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+}
+
+
+@media (max-width: 760px) {
+  .dashboard-page .dashboard-welcome { align-items:flex-start; }
+  .dashboard-page .welcome-actions { width:100%; }
+  .dashboard-page .welcome-actions .btn { flex:1; }
+}

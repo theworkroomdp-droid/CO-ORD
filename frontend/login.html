@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — CO-ORD | AI-Powered Collaborative Task Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-body">
+  <div class="auth-page-wrapper">
+    <div class="auth-login-shell">
+      <header class="auth-login-header">
+        <a href="index.html" class="auth-login-brand" aria-label="CO-ORD home">
+          <span class="auth-brand-mascot"><img src="assets/coord-mascot.png" alt="CO-ORD mascot"></span>
+          <span class="auth-brand-name">CO-ORD</span>
+        </a>
+        <div class="auth-brand-divider"></div>
+        <div class="auth-brand-nav"><span>PLAN</span><i></i><span>COLLABORATE</span><i></i><span>ACHIEVE</span></div>
+      </header>
+
+      <main class="auth-login-content">
+        <section class="auth-hero-pane">
+          <div class="auth-hero-copy">
+            <h1>Better Teams.<br><span>Smarter Work.</span></h1>
+            <p>AI-powered collaborative<br>task management for<br>modern teams.</p>
+          </div>
+
+          <div class="auth-hero-visual">
+            <div class="hero-orbit hero-orbit-a"></div>
+            <div class="hero-orbit hero-orbit-b"></div>
+            <div class="hero-glow"></div>
+            <img src="assets/coord-mascot.png" class="hero-mascot" alt="Friendly CO-ORD AI workspace assistant">
+          </div>
+        </section>
+
+        <section class="auth-login-card-wrap">
+          <div class="auth-login-card">
+            <div class="auth-card-glow"></div>
+            <div class="auth-card-content">
+              <div class="auth-header">
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Log in to continue your journey with CO-ORD.</p>
+              </div>
+
+              <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                  <div class="input-with-icon">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email" id="loginEmail" class="input-control" placeholder="Email or Username" value="alex@coord.io" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-with-icon">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="loginPassword" class="input-control" placeholder="Password" value="password123" required>
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                  </div>
+                </div>
+
+                <div class="auth-options-row">
+                  <label class="remember-check"><input type="checkbox"><span></span> Remember me</label>
+                  <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="auth-login-button">
+                  <span>Login</span><i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="auth-or"><span></span><em>OR</em><span></span></div>
+
+                <a href="signup.html" class="auth-create-button"><i class="fa-solid fa-user-plus"></i><span>Create an Account</span></a>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="js/auth.js"></script>
+  <script>
+    const toggle = document.getElementById('passwordToggle');
+    const password = document.getElementById('loginPassword');
+    if (toggle && password) {
+      toggle.addEventListener('click', () => {
+        const isPassword = password.type === 'password';
+        password.type = isPassword ? 'text' : 'password';
+        toggle.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        toggle.innerHTML = isPassword ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+      });
+    }
+  </script>
+</body>
+</html>

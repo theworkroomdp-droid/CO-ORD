@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body">
+        
+        <!-- Header -->
+        <div style="margin-bottom: 28px;">
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-silver-bright);">User Profile &amp; AI Skill Matrix</h1>
+          <p style="font-size: 0.92rem; color: var(--text-silver-secondary); margin-top: 4px;">
+            Keep your skills and availability updated so CO-ORD AI can accurately balance workload and recommend tasks.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 28px;">
+          
+          <!-- Left: Identity Overview Card -->
+          <div class="card" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 24px;">
+            <div class="member-avatar-ring" style="width: 76px; height: 76px; font-size: 1.9rem; margin-bottom: 16px;" id="profileAvatarDisplay">
+              AR
+            </div>
+            
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--text-silver-bright); margin-bottom: 4px;" id="profileDisplayName">Alex Rivera</h2>
+            <div style="font-size: 0.85rem; color: var(--text-silver-secondary); margin-bottom: 14px;">Full-Stack Builder</div>
+
+            <span class="badge badge-workload-balanced" id="profileWorkloadBadge" style="margin-bottom: 24px;">
+              BALANCED WORKLOAD
+            </span>
+
+            <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+              <div style="background: var(--bg-surface-active); padding: 12px; border-radius: 8px;">
+                <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-silver-bright);">3</div>
+                <div class="text-xs text-muted">Active Tasks</div>
+              </div>
+              <div style="background: var(--bg-surface-active); padding: 12px; border-radius: 8px;">
+                <div style="font-size: 1.3rem; font-weight: 800; color: #34d399;">7</div>
+                <div class="text-xs text-muted">Completed Tasks</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; padding: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; font-size: 0.82rem; color: #38bdf8; text-align: left; width: 100%;">
+              <i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 6px;"></i>
+              <strong>AI Status:</strong> Active collaborator in "CO-ORD Hackathon". 92% compatibility rating for Python &amp; frontend tasks.
+            </div>
+          </div>
+
+          <!-- Right: Editable Details & Skills Form -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-sliders" style="color: var(--deep-blue-400);"></i>
+                <span>Edit Profile &amp; Skills</span>
+              </div>
+            </div>
+
+            <form id="profileEditForm">
+              <div class="form-group">
+                <label class="form-label" for="profileName">Full Name</label>
+                <input type="text" id="profileName" class="input-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileEmail">Email (Read Only)</label>
+                <input type="email" id="profileEmail" class="input-control" disabled style="opacity: 0.6; cursor: not-allowed;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileRole">Role / Headline</label>
+                <input type="text" id="profileRole" class="input-control" placeholder="e.g. Frontend Engineer / Student" required>
+              </div>
+
+              <!-- Editable Dynamic Skills -->
+              <div class="form-group">
+                <label class="form-label" style="display: flex; justify-content: space-between;">
+                  <span>Technical Skills &amp; Specialties</span>
+                  <span class="text-xs" style="color: #38bdf8;">Used by AI for Task Allocation</span>
+                </label>
+                <div class="skills-input-wrapper">
+                  <div id="profileSkillsContainer" class="skills-tags-container"></div>
+                  <input type="text" id="profileSkillInput" class="skills-text-input" placeholder="Type skill + Enter...">
+                </div>
+                <div class="skills-suggestions" style="margin-top: 8px;">
+                  <span class="skill-chip-preset profile-preset-skill">+ Python</span>
+                  <span class="skill-chip-preset profile-preset-skill">+ FastAPI</span>
+                  <span class="skill-chip-preset profile-preset-skill">+ PostgreSQL</span>
+                  <span class="skill-chip-preset profile-preset-skill">+ React</span>
+                  <span class="skill-chip-preset profile-preset-skill">+ Figma</span>
+                  <span class="skill-chip-preset profile-preset-skill">+ Docker</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileBio">Brief Bio / Introduction</label>
+                <textarea id="profileBio" class="input-control" rows="3"></textarea>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-floppy-disk"></i>
+                  <span>Save Profile Changes</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>
