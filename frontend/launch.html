@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO-ORD | Launch Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-16 relative">
+
+    <!-- Top Navigation HUD -->
+    <header class="h-24 bg-white/70 backdrop-blur-2xl border-b-2 border-white/80 flex items-center justify-between px-6 sm:px-10 z-30 shrink-0 sticky top-0 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.03)]">
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="group flex items-center gap-3 bg-white border-2 border-slate-100 px-5 py-2.5 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all">
+                <span class="text-slate-400 group-hover:-translate-x-1 transition-transform font-black">←</span>
+                <span class="text-xs font-black text-slate-700 uppercase tracking-widest">Back to Hub</span>
+            </a>
+            <div class="hidden md:flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-2xl font-black text-sm tracking-wider">
+                <span class="text-indigo-400">❖</span> CO-ORD
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4 sm:gap-8">
+            <a href="active.html" class="flex items-center gap-2.5 bg-gradient-to-r from-amber-50 to-indigo-50 border-2 border-indigo-100/80 px-4 py-2 rounded-2xl shadow-sm">
+                <span class="text-xl">🪙</span>
+                <span class="hud-tokens font-black text-slate-900 text-sm tracking-tight">150 Tokens</span>
+            </a>
+
+            <div class="flex items-center gap-3 border-l-2 border-slate-200/80 pl-4 sm:pl-6">
+                <div class="text-right hidden sm:block">
+                    <div class="hud-user-name font-black text-sm text-slate-900">Anisha S</div>
+                    <div class="hud-user-role text-[10px] font-black text-slate-400 uppercase tracking-widest">Frontend Lead</div>
+                </div>
+                <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl border-2 border-white shadow-md hud-user-avatar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN FORM AREA -->
+    <main class="flex-1 flex items-center justify-center p-4 sm:p-8 z-10 relative">
+        <div class="w-full max-w-5xl igloo-bento p-6 sm:p-12 relative overflow-hidden bg-white/95">
+            
+            <!-- Inset Header Banner -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-100">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center text-3xl shadow-inner border border-indigo-100">
+                        🚀
+                    </div>
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full mb-1">
+                            Neural Pipeline
+                        </div>
+                        <h1 class="font-black text-3xl text-slate-900 tracking-tight">Launch Project Sprint</h1>
+                        <p class="text-slate-500 font-bold text-xs mt-0.5">Define objectives and select team nodes for autonomous vLLM task decomposition.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 self-start sm:self-auto bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-2xl">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-black text-emerald-800 uppercase tracking-wider">vLLM Task Dispatcher Ready</span>
+                </div>
+            </div>
+
+            <form id="launch-form" onsubmit="event.preventDefault(); initiateProjectLaunch();" class="space-y-8">
+                
+                <!-- Row 1: Title & Target Deadline -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Project Title <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="proj-title" type="text" required value="AI Community Complaint Prioritizer" placeholder="e.g., Automated Municipal Telemetry Parser" class="w-full igloo-input px-5 py-3.5 text-sm font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Target Deadline <span class="text-rose-500">*</span>
+                        </label>
+                        <input id="proj-deadline" type="date" required value="2026-09-30" class="w-full igloo-input px-5 py-3.5 text-sm font-bold text-slate-700">
+                    </div>
+                </div>
+
+                <!-- Row 2: Objective & Context -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Core Objective (Processed by vLLM) <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea id="proj-objective" required rows="4" placeholder="Describe the project goal. vLLM will parse requirements into sub-tasks..." class="w-full igloo-input px-5 py-3.5 text-sm font-bold text-slate-700 resize-none">Analyze incoming municipal resident complaints, compute urgency embeddings via vLLM, and prioritize emergency infrastructural repairs into an active sprint with verified token bounties.</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Required Context & Technical Constraints
+                        </label>
+                        <textarea id="proj-context" rows="4" placeholder="API documentation, repo links, dependencies, or security constraints..." class="w-full igloo-input px-5 py-3.5 text-sm font-bold text-slate-700 resize-none">Requires Python 3.11+, FastAPI, vLLM Llama-3.3 local server with CUDA support, and Tailwind CSS frontend design system.</textarea>
+                    </div>
+                </div>
+
+                <!-- Row 3: DYNAMICALLY POPULATED ACTIVE TEAM MEMBERS & SKILLS -->
+                <div class="bg-slate-50/70 border-2 border-slate-100 rounded-[2.5rem] p-6 sm:p-8 shadow-inner">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                        <div>
+                            <h3 class="font-black text-base text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                                <span class="text-indigo-600">❖</span> Active Team Nodes & Skill Matrix
+                            </h3>
+                            <p class="text-xs text-slate-500 font-bold mt-0.5">
+                                Dynamically indexed nodes from your cluster. Select who is eligible for task assignment.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span id="selected-nodes-counter" class="text-xs font-black text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-xl">
+                                5 Selected
+                            </span>
+                            <a href="team-manage.html" class="text-xs font-black text-slate-500 hover:text-slate-800 underline decoration-2 uppercase tracking-wider">
+                                + Add More Nodes
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Node Cards Grid -->
+                    <div id="dynamic-members-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Populated by JavaScript from CoordStore.getTeam() -->
+                    </div>
+                </div>
+
+                <!-- Row 4: Token Bounty Allocation & Sprint Config -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Total Sprint Token Bounty Pool
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 flex items-center gap-3 igloo-input px-5 py-3">
+                                <span class="text-2xl">🪙</span>
+                                <input id="proj-bounty" type="number" min="50" max="500" step="10" value="150" class="w-full bg-transparent font-black text-base text-slate-800 outline-none">
+                                <span class="text-xs font-black text-slate-400 uppercase">Tokens</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setBountyValue(100)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-black">100</button>
+                                <button type="button" onclick="setBountyValue(150)" class="px-3 py-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded-xl text-xs font-black">150</button>
+                                <button type="button" onclick="setBountyValue(250)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-black">250</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">
+                            Target Sprint Tag
+                        </label>
+                        <input id="proj-sprint-tag" type="text" value="Sprint 04 - Alpha Orchestration" class="w-full igloo-input px-5 py-3 text-sm font-bold text-slate-700">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" id="launch-submit-btn" class="tactile-btn tactile-btn-primary w-full py-5 text-base flex items-center justify-center gap-3">
+                        <span class="flex items-center gap-2">
+                            <span>Synthesize & Launch Project</span>
+                            <span class="text-lg leading-none">→</span>
+                        </span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- SIMULATED vLLM PROCESSING MODAL -->
+    <div id="vllm-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="igloo-bento p-8 sm:p-10 max-w-lg w-full bg-white shadow-2xl relative">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 bg-indigo-50 border-2 border-indigo-100 rounded-3xl mx-auto flex items-center justify-center text-4xl mb-4 shadow-inner">
+                    <div class="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <h3 class="font-black text-2xl text-slate-900">vLLM Neural Synthesis</h3>
+                <p class="text-xs font-bold text-slate-500 mt-1">Autonomous micro-task decomposition in progress...</p>
+            </div>
+
+            <!-- Steps Progress Bar -->
+            <div class="space-y-3 font-mono text-xs mb-6">
+                <div id="step-1" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold border border-indigo-100">
+                    <span class="step-icon">🔄</span>
+                    <span>Parsing objective semantics and constraints...</span>
+                </div>
+                <div id="step-2" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 text-slate-400 border border-slate-100">
+                    <span class="step-icon">⏳</span>
+                    <span>Decomposing into micro-tasks via Llama-3.3-70B...</span>
+                </div>
+                <div id="step-3" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 text-slate-400 border border-slate-100">
+                    <span class="step-icon">⏳</span>
+                    <span>Matching vector embeddings with node skill matrices...</span>
+                </div>
+                <div id="step-4" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 text-slate-400 border border-slate-100">
+                    <span class="step-icon">⏳</span>
+                    <span>Allocating token bounties and deploying to sprint...</span>
+                </div>
+            </div>
+
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div id="modal-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-purple-600 w-0 transition-all duration-500"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="coord-store.js"></script>
+    <script>
+        let selectedNodeIds = new Set();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDynamicTeamNodes();
+        });
+
+        function renderDynamicTeamNodes() {
+            const container = document.getElementById('dynamic-members-list');
+            const team = CoordStore.getTeam();
+            if (!container) return;
+
+            container.innerHTML = "";
+            selectedNodeIds.clear();
+
+            team.forEach(member => {
+                selectedNodeIds.add(member.id);
+
+                const card = document.createElement('div');
+                card.id = `node-card-${member.id}`;
+                card.onclick = () => toggleNodeSelection(member.id);
+                card.className = "bg-white border-2 border-indigo-300 shadow-sm rounded-2xl p-4 cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99] selected-node relative";
+
+                const isSelected = selectedNodeIds.has(member.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gradient-to-tr ${member.avatarGradient || 'from-indigo-500 to-purple-500'} rounded-xl border-2 border-white shadow-sm flex items-center justify-center text-white font-black text-xs">
+                                ${member.name.charAt(0)}
+                            </div>
+                            <div>
+                                <h4 class="font-black text-sm text-slate-900 leading-tight">${member.name}</h4>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">${member.role}</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" checked id="chk-${member.id}" class="w-4 h-4 rounded text-indigo-600 focus:ring-0 pointer-events-none">
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-[10px] font-black text-slate-500 mb-2.5">
+                        <span>Load: ${member.capacity || 20}%</span>
+                        <span class="px-2 py-0.5 rounded-md ${member.capacity > 70 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-700'}">${member.status || 'Available'}</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1">
+                        ${member.skills.slice(0, 4).map(skill => `
+                            <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[9px] font-extrabold px-2 py-0.5 rounded-lg">
+                                ${skill}
+                            </span>
+                        `).join('')}
+                        ${member.skills.length > 4 ? `<span class="text-[9px] font-bold text-slate-400">+${member.skills.length - 4}</span>` : ''}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateSelectedCounter();
+        }
+
+        function toggleNodeSelection(nodeId) {
+            const card = document.getElementById(`node-card-${nodeId}`);
+            const chk = document.getElementById(`chk-${nodeId}`);
+            if (selectedNodeIds.has(nodeId)) {
+                selectedNodeIds.delete(nodeId);
+                card.classList.remove('border-indigo-300', 'bg-white', 'shadow-sm');
+                card.classList.add('border-slate-200', 'bg-slate-50/60', 'opacity-60');
+                if (chk) chk.checked = false;
+            } else {
+                selectedNodeIds.add(nodeId);
+                card.classList.add('border-indigo-300', 'bg-white', 'shadow-sm');
+                card.classList.remove('border-slate-200', 'bg-slate-50/60', 'opacity-60');
+                if (chk) chk.checked = true;
+            }
+            updateSelectedCounter();
+        }
+
+        function updateSelectedCounter() {
+            const counter = document.getElementById('selected-nodes-counter');
+            if (counter) {
+                counter.innerText = `${selectedNodeIds.size} Selected`;
+            }
+        }
+
+        function setBountyValue(val) {
+            document.getElementById('proj-bounty').value = val;
+        }
+
+        function initiateProjectLaunch() {
+            const title = document.getElementById('proj-title').value.trim();
+            const deadline = document.getElementById('proj-deadline').value;
+            const objective = document.getElementById('proj-objective').value.trim();
+            const context = document.getElementById('proj-context').value.trim();
+            const sprintTag = document.getElementById('proj-sprint-tag').value.trim();
+            const bounty = parseInt(document.getElementById('proj-bounty').value, 10) || 150;
+
+            if (selectedNodeIds.size === 0) {
+                alert('Please select at least one active team node for task routing.');
+                return;
+            }
+
+            // Save Project Meta
+            CoordStore.setCurrentProject({
+                title,
+                deadline,
+                objective,
+                requiredInfo: context,
+                activeSprint: sprintTag,
+                bountyPool: bounty
+            });
+
+            // Show vLLM Processing Modal
+            const modal = document.getElementById('vllm-modal');
+            const progress = document.getElementById('modal-progress-bar');
+            modal.classList.remove('hidden');
+
+            const s1 = document.getElementById('step-1');
+            const s2 = document.getElementById('step-2');
+            const s3 = document.getElementById('step-3');
+            const s4 = document.getElementById('step-4');
+
+            progress.style.width = '25%';
+
+            setTimeout(() => {
+                s1.className = "flex items-center gap-3 p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200";
+                s1.querySelector('.step-icon').innerText = '✓';
+                
+                s2.className = "flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold border border-indigo-100";
+                s2.querySelector('.step-icon').innerText = '🔄';
+                progress.style.width = '50%';
+            }, 700);
+
+            setTimeout(() => {
+                s2.className = "flex items-center gap-3 p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200";
+                s2.querySelector('.step-icon').innerText = '✓';
+                
+                s3.className = "flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold border border-indigo-100";
+                s3.querySelector('.step-icon').innerText = '🔄';
+                progress.style.width = '75%';
+            }, 1400);
+
+            setTimeout(() => {
+                s3.className = "flex items-center gap-3 p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200";
+                s3.querySelector('.step-icon').innerText = '✓';
+                
+                s4.className = "flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold border border-indigo-100";
+                s4.querySelector('.step-icon').innerText = '🔄';
+                progress.style.width = '100%';
+
+                // Synthesize new tasks in store
+                generateAndSaveTasks(title, objective);
+            }, 2100);
+
+            setTimeout(() => {
+                s4.className = "flex items-center gap-3 p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200";
+                s4.querySelector('.step-icon').innerText = '✓';
+                
+                // Redirect to Active Kanban Board
+                window.location.href = 'active.html';
+            }, 2800);
+        }
+
+        function generateAndSaveTasks(projTitle, objective) {
+            const team = CoordStore.getTeam().filter(m => selectedNodeIds.has(m.id));
+            if (!team.length) return;
+
+            // Generate 3 targeted tasks matching skills of selected members
+            const taskTemplates = [
+                {
+                    title: `Parse & Normalize Incoming Telemetry Schemas`,
+                    domain: 'Backend',
+                    bounty: 45,
+                    skills: 'FastAPI, Python, Docker',
+                    subtasks: [
+                        { text: 'Implement JSON validation pipeline', done: false },
+                        { text: 'Hook into redis queue worker', done: false },
+                        { text: 'Run unit test suite', done: false }
+                    ]
+                },
+                {
+                    title: `Construct Interactive 3D Status Visualizer`,
+                    domain: 'Frontend',
+                    bounty: 55,
+                    skills: 'React, Tailwind, UI/UX',
+                    subtasks: [
+                        { text: 'Design tactile bento widgets', done: false },
+                        { text: 'Bind live WebSocket telemetry stream', done: false },
+                        { text: 'Test responsive breakpoints', done: false }
+                    ]
+                },
+                {
+                    title: `Calibrate Embedding Similarity Classifier`,
+                    domain: 'AI/ML',
+                    bounty: 50,
+                    skills: 'PyTorch, vLLM, Embeddings',
+                    subtasks: [
+                        { text: 'Fine-tune vector distance threshold', done: false },
+                        { text: 'Profile GPU memory utilization', done: false },
+                        { text: 'Verify inference response latency', done: false }
+                    ]
+                }
+            ];
+
+            taskTemplates.forEach((tmpl, i) => {
+                const rec = CoordStore.recommendMemberForTask(tmpl.skills, tmpl.domain);
+                const assigned = rec && rec.member ? rec.member : team[i % team.length];
+
+                CoordStore.addTask({
+                    title: tmpl.title,
+                    project: projTitle,
+                    domain: tmpl.domain,
+                    bounty: tmpl.bounty,
+                    status: i === 1 ? 'in-progress' : 'pending',
+                    assignedTo: assigned.id,
+                    subtasks: tmpl.subtasks,
+                    vllmRationale: `vLLM Semantic Match: ${rec ? rec.score : 94}% compatibility with ${assigned.name}'s verified skill matrix.`
+                });
+            });
+        }
+    </script>
+</body>
+</html>
