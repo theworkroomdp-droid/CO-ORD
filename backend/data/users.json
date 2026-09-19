@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "name": "Anisha S",
+        "email": "anisha@example.com",
+        "skills": [
+            "Frontend",
+            "JavaScript",
+            "UI/UX"
+        ],
+        "id": 1
+    }
+]

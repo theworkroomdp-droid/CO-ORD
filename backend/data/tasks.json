@@ -1,1 +1,21 @@
-[]
+[
+    {
+        "title": "Build FastAPI integration",
+        "domain": "Backend",
+        "bounty": 40,
+        "assignedTo": 1,
+        "status": "pending",
+        "vllmRationale": "Assigned based on backend skills.",
+        "subtasks": [
+            {
+                "text": "Create API endpoint",
+                "done": false
+            },
+            {
+                "text": "Connect frontend",
+                "done": false
+            }
+        ],
+        "id": 1
+    }
+]
