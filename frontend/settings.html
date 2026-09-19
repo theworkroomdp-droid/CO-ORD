@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .settings-nav-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      color: var(--text-silver-secondary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      border: 1px solid transparent;
+      width: 100%;
+      text-align: left;
+    }
+    .settings-nav-pill:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-silver-bright);
+    }
+    .settings-nav-pill.active {
+      background: var(--bg-surface-active);
+      color: var(--text-silver-bright);
+      border-color: var(--border-silver);
+    }
+    .settings-nav-pill.active i {
+      color: var(--deep-blue-400);
+    }
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--bg-surface-active);
+      border: 1px solid var(--border-silver);
+      transition: .3s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-silver-primary);
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--deep-blue-600);
+      border-color: var(--deep-blue-400);
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body">
+        
+        <div style="margin-bottom: 28px;">
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-silver-bright);">Workspace Settings</h1>
+          <p style="font-size: 0.92rem; color: var(--text-silver-secondary); margin-top: 4px;">
+            Manage notification alerts, appearance tokens, and backend API integration.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 240px 1fr; gap: 28px;">
+          
+          <!-- Left Navigation Column -->
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <button class="settings-nav-pill settings-tab-btn active" data-section="notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notifications</span>
+            </button>
+            <button class="settings-nav-pill settings-tab-btn" data-section="appearance">
+              <i class="fa-solid fa-palette"></i>
+              <span>Appearance</span>
+            </button>
+            <button class="settings-nav-pill settings-tab-btn" data-section="api">
+              <i class="fa-solid fa-network-wired"></i>
+              <span>Backend &amp; API</span>
+            </button>
+            <button class="settings-nav-pill settings-tab-btn" data-section="account">
+              <i class="fa-regular fa-shield"></i>
+              <span>Account</span>
+            </button>
+          </div>
+
+          <!-- Right Content Column -->
+          <div>
+            
+            <!-- Section: Notifications -->
+            <div class="card settings-section" id="section_notifications">
+              <div class="card-header">
+                <div class="card-title">Notification Preferences</div>
+              </div>
+
+              <div class="settings-row">
+                <div>
+                  <div style="font-weight: 600; color: var(--text-silver-bright);">AI Workload &amp; Allocation Alerts</div>
+                  <div class="text-xs text-muted">Receive smart notifications when AI detects team imbalances or suggests task reallocation.</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="settings-row">
+                <div>
+                  <div style="font-weight: 600; color: var(--text-silver-bright);">Task Status &amp; Milestone Events</div>
+                  <div class="text-xs text-muted">Notify me when tasks move between Kanban columns or are completed.</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="settings-row">
+                <div>
+                  <div style="font-weight: 600; color: var(--text-silver-bright);">Team Chat Direct Mentions</div>
+                  <div class="text-xs text-muted">Notify me when teammates mention me with @Alex in the workspace chat room.</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary btn-sm" id="saveSettingsBtn">Save Preferences</button>
+              </div>
+            </div>
+
+            <!-- Section: Appearance -->
+            <div class="card settings-section" id="section_appearance" style="display: none;">
+              <div class="card-header">
+                <div class="card-title">Theme &amp; Visual Style</div>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-silver-secondary); margin-bottom: 20px;">
+                CO-ORD is styled with the <strong>Obsidian Black, Polished Silver, and Deep Blue</strong> theme inspired by high-velocity SaaS tools (Linear &amp; igloo.inc).
+              </p>
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                <div style="border: 2px solid var(--deep-blue-400); border-radius: 8px; padding: 14px; background: #05070e; cursor: pointer;">
+                  <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Obsidian &amp; Deep Blue</div>
+                  <div style="display: flex; gap: 4px; margin-top: 8px;">
+                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #05070e; border: 1px solid #fff;"></div>
+                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #e2e8f0;"></div>
+                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #2563eb;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section: Backend & API -->
+            <div class="card settings-section" id="section_api" style="display: none;">
+              <div class="card-header">
+                <div class="card-title">Python FastAPI Endpoint</div>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-silver-secondary); margin-bottom: 16px;">
+                This frontend is architected to communicate via REST with your Python FastAPI service.
+              </p>
+
+              <div class="form-group">
+                <label class="form-label">FastAPI Base URL</label>
+                <input type="text" class="input-control" value="http://localhost:8000" style="font-family: var(--font-mono);">
+                <span class="text-xs text-muted" style="margin-top: 4px; display: block;">
+                  Configured in <code>js/api.js</code>. Falls back to reactive local storage mock when offline.
+                </span>
+              </div>
+
+              <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+                <div style="font-weight: 700; color: var(--text-silver-bright); margin-bottom: 6px;">Demo State Management</div>
+                <button class="btn btn-silver btn-sm" id="resetDemoDataBtn">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Reset Demo Data to Initial State</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Section: Account -->
+            <div class="card settings-section" id="section_account" style="display: none;">
+              <div class="card-header">
+                <div class="card-title">Account Session</div>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-silver-secondary); margin-bottom: 20px;">
+                Signed in as <strong>Alex Rivera</strong> (alex@coord.io).
+              </p>
+              <a href="login.html" class="btn btn-silver btn-sm" style="color: #fb7185;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sign Out</span>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

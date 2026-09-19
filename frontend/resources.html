@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .category-pills-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .category-pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-silver);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-silver-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .category-pill:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-silver-bright);
+      border-color: var(--border-silver-strong);
+    }
+    .category-pill.active {
+      background: rgba(37, 99, 235, 0.2);
+      border-color: var(--deep-blue-400);
+      color: #60a5fa;
+    }
+    .chrome-banner-card {
+      background: linear-gradient(135deg, rgba(14, 25, 52, 0.9) 0%, rgba(5, 7, 14, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: var(--radius-md);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body">
+        
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-silver-bright);">Project Resources &amp; Knowledge</h1>
+            <p style="font-size: 0.92rem; color: var(--text-silver-secondary); margin-top: 4px;">
+              Shared documentation, technical references, tutorials, and research articles.
+            </p>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('addResourceModal').classList.add('active')">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Resource</span>
+          </button>
+        </div>
+
+        <!-- Project-first resource selector -->
+        <section class="project-context-panel techflux-panel" id="resourceProjectSelectorPanel">
+          <div class="project-context-copy">
+            <span class="hub-eyebrow">PROJECT CONTEXT</span>
+            <h2>Select a project first</h2>
+            <p>Resources are kept separate by workspace so research from one project does not mix with another.</p>
+          </div>
+          <div class="project-context-control">
+            <label class="form-label" for="resourceProjectSelect">Project / Workspace</label>
+            <select id="resourceProjectSelect" class="input-control"><option value="">Choose a project...</option></select>
+          </div>
+        </section>
+        <div class="selected-project-strip" id="selectedResourceProject" style="display:none;"></div>
+
+        <div id="resourceProjectContent" style="display:none;">
+        <!-- Chrome Extension Connection Banner -->
+        <div class="chrome-banner-card">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #38bdf8;">
+              <i class="fa-brands fa-chrome"></i>
+            </div>
+            <div>
+              <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-silver-bright);">
+                Save useful resources while you browse
+              </div>
+              <p style="font-size: 0.84rem; color: var(--text-silver-secondary); margin-top: 2px;">
+                Use the <strong>CO-ORD Chrome Extension</strong> to clip documentation, articles, and GitHub repos directly to your project workspace.
+              </p>
+            </div>
+          </div>
+          <button class="btn btn-silver btn-sm" onclick="document.getElementById('chromeExtensionModal').classList.add('active')">
+            <i class="fa-brands fa-chrome" style="color: #38bdf8;"></i>
+            <span>Get Chrome Extension</span>
+          </button>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="card" style="padding: 12px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+          <div class="category-pills-bar">
+            <button class="category-pill active" data-category="all">All Resources</button>
+            <button class="category-pill" data-category="Documentation">Documentation</button>
+            <button class="category-pill" data-category="Articles">Articles</button>
+            <button class="category-pill" data-category="References">References</button>
+            <button class="category-pill" data-category="Videos">Videos</button>
+          </div>
+
+          <div class="search-box" style="width: 260px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-input" id="resourceSearchInput" placeholder="Filter resources...">
+          </div>
+        </div>
+
+        <!-- Resources Cards Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;" id="resourcesGridContainer"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Resource Modal -->
+  <div class="modal-backdrop" id="addResourceModal">
+    <div class="modal" style="max-width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-plus" style="color: var(--deep-blue-400);"></i>
+          <span>Add Project Resource</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <form id="addResourceForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="newResTitle">Resource Title</label>
+            <input type="text" id="newResTitle" class="input-control" placeholder="e.g. SQLAlchemy Async Session Guide" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newResUrl">URL Link</label>
+            <input type="url" id="newResUrl" class="input-control" placeholder="https://docs.sqlalchemy.org/..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newResCategory">Category</label>
+            <select id="newResCategory" class="input-control">
+              <option value="Documentation">Documentation</option>
+              <option value="Articles">Articles</option>
+              <option value="References">References</option>
+              <option value="Videos">Videos</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newResDesc">Description</label>
+            <textarea id="newResDesc" class="input-control" rows="2" placeholder="Why this resource is useful for the team..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newResTags">Tags (comma separated)</label>
+            <input type="text" id="newResTags" class="input-control" placeholder="Backend, Database, Python">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-silver btn-sm" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save to Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chrome Extension Modal -->
+  <div class="modal-backdrop" id="chromeExtensionModal">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-brands fa-chrome" style="color: #38bdf8;"></i>
+          <span>CO-ORD Chrome Extension</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #38bdf8; margin-bottom: 12px;">
+            <i class="fa-brands fa-chrome"></i>
+          </div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-silver-bright);">1-Click Web Research Clipper</h3>
+          <p style="font-size: 0.86rem; color: var(--text-silver-secondary); margin-top: 6px;">
+            Eliminate duplicated research across teammates. Clip any documentation tab straight into your team's CO-ORD workspace with automated tags and category classification.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-silver); border-radius: 8px; padding: 14px; font-size: 0.84rem; color: var(--text-silver-primary);">
+          <div style="font-weight: 600; margin-bottom: 6px; color: #38bdf8;">Extension Features:</div>
+          <ul style="list-style: disc; margin-left: 18px; line-height: 1.6; color: var(--text-silver-secondary);">
+            <li>Auto-detect page title, domain, and meta summary</li>
+            <li>Assign resource to active project in 1 click</li>
+            <li>AI auto-tagging for easy searching</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" data-modal-close style="width: 100%;">
+          <span>Add Extension to Chrome (Demo Link)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/resources.js"></script>
+</body>
+</html>

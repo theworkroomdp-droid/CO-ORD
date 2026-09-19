@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workspace — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/workspace.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body">
+        
+        <!-- Workspace Main Header -->
+        <div class="workspace-header">
+          <div class="project-header-inner">
+            <div class="project-title-area">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <span class="badge" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa; text-transform: uppercase;">Active Sprint</span>
+                <span class="badge badge-workload-balanced"><i class="fa-solid fa-users"></i> 5 Members</span>
+              </div>
+              <h1 id="workspaceProjectName">CO-ORD Hackathon</h1>
+              <p class="project-desc" id="workspaceProjectDesc">
+                AI-Powered Collaborative Task Management Platform for student and project teams.
+              </p>
+              <div class="workspace-roomcode-owner" id="workspaceRoomCodeOwner" hidden>
+                <i class="fa-solid fa-key"></i>
+                <span>Room code</span>
+                <strong id="workspaceRoomCodeValue">••••••••</strong>
+                <button class="icon-btn roomcode-copy-btn" id="copyWorkspaceRoomCode" type="button" title="Copy room code"><i class="fa-regular fa-copy"></i></button>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <!-- Avatar Stack -->
+              <div class="avatar-stack" style="margin-right: 8px;">
+                <div class="avatar-stack-item" title="Anu (Frontend)">A</div>
+                <div class="avatar-stack-item" title="Rahul (Backend)">R</div>
+                <div class="avatar-stack-item" title="Meera (AI/ML)">M</div>
+                <div class="avatar-stack-item" title="Arjun (UI/UX)">Ar</div>
+                <div class="avatar-stack-item" style="background: var(--deep-blue-500);" title="You">+1</div>
+              </div>
+
+              <button class="btn btn-silver btn-sm" onclick="document.getElementById('createTaskModal').classList.add('active')">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Task</span>
+              </button>
+              <a href="ai.html" class="btn btn-ai btn-sm">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>AI Allocation</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Navigation Tabs Bar -->
+          <div class="workspace-nav-bar">
+            <div class="workspace-tabs">
+              <button class="workspace-tab-btn active" data-tab="overview">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Overview</span>
+              </button>
+              <button class="workspace-tab-btn" data-tab="tasks">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Tasks</span>
+                <span class="tab-badge blue">7</span>
+              </button>
+              <button class="workspace-tab-btn" data-tab="chat">
+                <i class="fa-solid fa-comments" style="color: #38bdf8;"></i>
+                <span>Team Chat</span>
+                <span class="tab-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">Live</span>
+              </button>
+              <button class="workspace-tab-btn" data-tab="team">
+                <i class="fa-solid fa-users"></i>
+                <span>Team &amp; Workload</span>
+              </button>
+              <button class="workspace-tab-btn" data-tab="resources">
+                <i class="fa-solid fa-bookmark"></i>
+                <span>Resources</span>
+              </button>
+              <button class="workspace-tab-btn" data-tab="activity">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Activity</span>
+              </button>
+            </div>
+
+            <!-- View Toggles for Tasks -->
+            <div class="view-mode-toggle" id="tasksViewToggle">
+              <button class="btn view-btn active" data-view="kanban">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Kanban</span>
+              </button>
+              <button class="btn view-btn" data-view="list">
+                <i class="fa-solid fa-list"></i>
+                <span>List</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             TAB 1: OVERVIEW
+             =================================================================== -->
+        <section id="tabSection_overview" class="workspace-section">
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px;">
+            
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <i class="fa-solid fa-gauge-high" style="color: var(--deep-blue-400);"></i>
+                    <span>Project Velocity &amp; Completion</span>
+                  </div>
+                  <span style="font-size: 1.4rem; font-weight: 800; color: #38bdf8;" id="overviewPct">72%</span>
+                </div>
+                <div class="progress-bar-linear" style="height: 10px; margin-bottom: 12px;">
+                  <div class="progress-fill" id="overviewPctBar" style="width: 72%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.84rem; color: var(--text-silver-secondary);">
+                  <span id="overviewTasksSummary">3 completed out of 7 tasks</span>
+                  <span>Target: <strong>Hackathon Demo Ready</strong></span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <i class="fa-regular fa-calendar-check" style="color: #fbbf24;"></i>
+                    <span>Upcoming Deadlines</span>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;" id="overviewDeadlinesList"></div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <i class="fa-solid fa-comments" style="color: #38bdf8;"></i>
+                    <span>Recent Team Chat</span>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="document.querySelector('[data-tab=chat]').click()">Open Chat &rarr;</button>
+                </div>
+                <div style="font-size: 0.86rem; color: var(--text-silver-secondary); line-height: 1.5; padding: 10px; background: var(--bg-surface-active); border-radius: 8px;">
+                  <strong>Arjun:</strong> "Design system tokens (Obsidian Black, Silver, Deep Blue) look super crisp. Make sure to check the preview cards on the login page."
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i>
+                    <span>AI Recommendation</span>
+                  </div>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-silver-secondary); line-height: 1.45; margin-bottom: 12px;">
+                  Assigning "Optimize async database queries" to Rahul will maintain optimal team workload balance without overloading Arjun.
+                </p>
+                <a href="ai.html" class="btn btn-primary btn-sm" style="width: 100%;">
+                  <span>Open AI Allocation Engine</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 2: TASKS (KANBAN & LIST)
+             =================================================================== -->
+        <section id="tabSection_tasks" class="workspace-section" style="display: none;">
+          
+          <!-- Kanban View -->
+          <div class="kanban-board" id="tasksKanbanView">
+            
+            <!-- Column 1: Backlog -->
+            <div class="kanban-column">
+              <div class="column-header">
+                <div class="column-title-wrap">
+                  <span class="column-dot dot-backlog"></span>
+                  <span class="column-title">Backlog</span>
+                </div>
+                <span class="column-count" id="kanbanCount_backlog">0</span>
+              </div>
+              <div class="kanban-cards-area" id="kanbanCol_backlog"></div>
+            </div>
+
+            <!-- Column 2: To Do -->
+            <div class="kanban-column">
+              <div class="column-header">
+                <div class="column-title-wrap">
+                  <span class="column-dot dot-todo"></span>
+                  <span class="column-title">To Do</span>
+                </div>
+                <span class="column-count" id="kanbanCount_todo">0</span>
+              </div>
+              <div class="kanban-cards-area" id="kanbanCol_todo"></div>
+            </div>
+
+            <!-- Column 3: In Progress -->
+            <div class="kanban-column">
+              <div class="column-header">
+                <div class="column-title-wrap">
+                  <span class="column-dot dot-inprogress"></span>
+                  <span class="column-title">In Progress</span>
+                </div>
+                <span class="column-count" id="kanbanCount_inprogress">0</span>
+              </div>
+              <div class="kanban-cards-area" id="kanbanCol_inprogress"></div>
+            </div>
+
+            <!-- Column 4: Review -->
+            <div class="kanban-column">
+              <div class="column-header">
+                <div class="column-title-wrap">
+                  <span class="column-dot dot-review"></span>
+                  <span class="column-title">Review</span>
+                </div>
+                <span class="column-count" id="kanbanCount_review">0</span>
+              </div>
+              <div class="kanban-cards-area" id="kanbanCol_review"></div>
+            </div>
+
+            <!-- Column 5: Completed -->
+            <div class="kanban-column">
+              <div class="column-header">
+                <div class="column-title-wrap">
+                  <span class="column-dot dot-completed"></span>
+                  <span class="column-title">Completed</span>
+                </div>
+                <span class="column-count" id="kanbanCount_completed">0</span>
+              </div>
+              <div class="kanban-cards-area" id="kanbanCol_completed"></div>
+            </div>
+
+          </div>
+
+          <!-- List View -->
+          <div id="tasksListView" style="display: none;">
+            <table class="tasks-list-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Assignee</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Due Date</th>
+                  <th>Progress</th>
+                </tr>
+              </thead>
+              <tbody id="tasksTableBody"></tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 3: REAL-TIME TEAM CHAT
+             =================================================================== -->
+        <section id="tabSection_chat" class="workspace-section" style="display: none;">
+          <div class="team-chat-container">
+            
+            <!-- Chat Stream Main Pane -->
+            <div class="chat-main-pane">
+              <div class="chat-pane-header">
+                <div class="chat-channel-info">
+                  <div class="chat-channel-icon">
+                    <i class="fa-solid fa-hashtag"></i>
+                  </div>
+                  <div>
+                    <div class="chat-channel-name">#coord-hackathon-general</div>
+                    <div class="chat-channel-sub">Live project channel for tasks, API sync &amp; design discussions</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                    <span class="status-dot" style="position: static; display: inline-block; margin-right: 4px;"></span>
+                    5 Online
+                  </span>
+                </div>
+              </div>
+
+              <!-- Message Stream -->
+              <div class="chat-messages-stream" id="chatMessagesStream"></div>
+
+              <!-- Typing Indicator -->
+              <div class="chat-typing-indicator" id="chatTypingIndicator" style="display: none;"></div>
+
+              <!-- Chat Input Form -->
+              <div class="chat-input-area">
+                <div class="chat-input-controls-top">
+                  <span class="text-xs text-muted">Quick triggers:</span>
+                  <span class="chat-quick-chip" data-prompt="@AI Who can help test the authentication endpoints?">@AI Help</span>
+                  <span class="chat-quick-chip" data-prompt="Task #102 is ready for code review.">Review Task</span>
+                  <span class="chat-quick-chip" data-prompt="Pushed design tokens to the master branch.">Update Tokens</span>
+                </div>
+
+                <form id="chatInputForm" class="chat-input-row">
+                  <input type="text" id="chatTextInput" class="input-control" placeholder="Type a message to your team... (try '@ai help' or ask a question)" autocomplete="off">
+                  <button type="submit" class="btn btn-primary btn-sm" style="padding: 10px 18px;">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Send</span>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+            <!-- Chat Members Sidebar -->
+            <div class="chat-members-sidebar">
+              <div class="chat-members-title">Active Members (5)</div>
+              
+              <div class="chat-member-item">
+                <div class="member-avatar-status">
+                  <div class="task-assignee-avatar avatar-anu">A</div>
+                  <span class="status-dot"></span>
+                </div>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-silver-bright);">Anu</div>
+                  <div class="text-xs text-muted">Frontend Dev</div>
+                </div>
+              </div>
+
+              <div class="chat-member-item">
+                <div class="member-avatar-status">
+                  <div class="task-assignee-avatar avatar-rahul">R</div>
+                  <span class="status-dot"></span>
+                </div>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-silver-bright);">Rahul</div>
+                  <div class="text-xs text-muted">Backend Dev</div>
+                </div>
+              </div>
+
+              <div class="chat-member-item">
+                <div class="member-avatar-status">
+                  <div class="task-assignee-avatar avatar-meera">M</div>
+                  <span class="status-dot"></span>
+                </div>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-silver-bright);">Meera</div>
+                  <div class="text-xs text-muted">AI/ML Engineer</div>
+                </div>
+              </div>
+
+              <div class="chat-member-item">
+                <div class="member-avatar-status">
+                  <div class="task-assignee-avatar avatar-arjun">Ar</div>
+                  <span class="status-dot"></span>
+                </div>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-silver-bright);">Arjun</div>
+                  <div class="text-xs text-muted">UI/UX Designer</div>
+                </div>
+              </div>
+
+              <div class="chat-member-item">
+                <div class="member-avatar-status">
+                  <div class="task-assignee-avatar avatar-self">You</div>
+                  <span class="status-dot"></span>
+                </div>
+                <div>
+                  <div style="font-size: 0.84rem; font-weight: 600; color: #38bdf8;">You (Alex)</div>
+                  <div class="text-xs text-muted">Full-Stack</div>
+                </div>
+              </div>
+
+              <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+                <div class="text-xs text-muted" style="margin-bottom: 6px;">CO-ORD AI Bot</div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #38bdf8;">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>Listening for @AI</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 4: TEAM & WORKLOAD
+             =================================================================== -->
+        <section id="tabSection_team" class="workspace-section" style="display: none;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;" id="workspaceTeamList"></div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 5: RESOURCES
+             =================================================================== -->
+        <section id="tabSection_resources" class="workspace-section" style="display: none;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;" id="workspaceResourcesList"></div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 6: ACTIVITY
+             =================================================================== -->
+        <section id="tabSection_activity" class="workspace-section" style="display: none;">
+          <div style="display: flex; flex-direction: column; gap: 12px; max-width: 800px;" id="workspaceActivityStream"></div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Task Detail Modal Drawer with "Ask AI for Help" -->
+  <div class="modal-backdrop" id="taskDetailModal">
+    <div class="modal" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-list-check" style="color: var(--deep-blue-400);"></i>
+          <span id="detailTaskTitle">Task Details</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Top Prominent Action: "Ask AI for Help" -->
+        <div style="padding: 14px 18px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(37, 99, 235, 0.2) 100%); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <div>
+            <div style="font-weight: 700; color: #fff; font-size: 0.95rem;">Stuck or need team assistance?</div>
+            <div style="font-size: 0.78rem; color: var(--text-silver-secondary);">AI will find the best collaborator based on skills and open capacity.</div>
+          </div>
+          <button class="btn btn-ai btn-sm" id="detailAskAiBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Ask AI for Help</span>
+          </button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <span class="text-xs text-muted">Description</span>
+            <p id="detailTaskDesc" style="color: var(--text-silver-primary); font-size: 0.9rem; margin-top: 4px; line-height: 1.5;"></p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border-silver); border-radius: 8px;">
+            <div>
+              <span class="text-xs text-muted">Status</span>
+              <div id="detailTaskStatus" style="font-weight: 700; color: #60a5fa; font-size: 0.85rem; margin-top: 2px;"></div>
+            </div>
+            <div>
+              <span class="text-xs text-muted">Priority</span>
+              <div id="detailTaskPriority" style="font-weight: 700; color: #fbbf24; font-size: 0.85rem; margin-top: 2px;"></div>
+            </div>
+            <div>
+              <span class="text-xs text-muted">Assignee</span>
+              <div id="detailTaskAssignee" style="font-weight: 700; color: var(--text-silver-bright); font-size: 0.85rem; margin-top: 2px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs text-muted">Required Skills</span>
+            <div id="detailTaskSkills" style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;"></div>
+          </div>
+
+          <div>
+            <span class="text-xs text-muted">Due Date: </span>
+            <span id="detailTaskDueDate" style="font-size: 0.85rem; color: var(--text-silver-primary); font-weight: 600;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn btn-ghost btn-sm" id="detailDeleteTaskBtn" style="color: #fb7185;">
+          <i class="fa-regular fa-trash-can"></i>
+          <span>Delete Task</span>
+        </button>
+        <button class="btn btn-silver btn-sm" data-modal-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workspace Access Gate -->
+  <div class="modal-backdrop" id="workspaceAccessModal">
+    <div class="modal workspace-access-modal">
+      <div class="modal-header">
+        <div class="modal-title"><i class="fa-solid fa-shield-halved" style="color: var(--deep-blue-400);"></i><span>Enter Workspace</span></div>
+      </div>
+      <form id="workspaceAccessForm">
+        <div class="modal-body">
+          <div class="access-gate-icon"><i class="fa-solid fa-key"></i></div>
+          <h2 id="workspaceAccessTitle">Workspace access required</h2>
+          <p id="workspaceAccessMessage">This workspace is private. Only members selected by the workspace admin can enter with the room code.</p>
+          <div class="form-group" id="workspaceRoomCodeGroup">
+            <label class="form-label" for="workspaceRoomCodeInput">Room Code</label>
+            <div class="roomcode-input-wrap">
+              <i class="fa-solid fa-lock"></i>
+              <input class="input-control" id="workspaceRoomCodeInput" autocomplete="off" placeholder="Enter the code shared by the admin" required>
+            </div>
+            <p class="form-hint">You must be an invited workspace member and use the correct code.</p>
+          </div>
+          <div class="workspace-access-error" id="workspaceAccessError" hidden></div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-silver btn-sm" href="workspace.html">Back to Workspaces</a>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-right"></i> Enter Workspace</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Task Modal -->
+  <div class="modal-backdrop" id="createTaskModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-plus" style="color: var(--deep-blue-400);"></i>
+          <span>Add Task to Workspace</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <form id="workspaceCreateTaskForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="wsTaskTitle">Task Title</label>
+            <input type="text" id="wsTaskTitle" class="input-control" placeholder="e.g. Set up WebSocket backend channel" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wsTaskDesc">Description</label>
+            <textarea id="wsTaskDesc" class="input-control" placeholder="Brief explanation of task requirements..."></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label" for="wsTaskStatus">Initial Column</label>
+              <select id="wsTaskStatus" class="input-control">
+                <option value="todo">To Do</option>
+                <option value="backlog">Backlog</option>
+                <option value="inprogress">In Progress</option>
+                <option value="review">Review</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wsTaskPriority">Priority</label>
+              <select id="wsTaskPriority" class="input-control">
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+                <option value="urgent">Urgent Priority</option>
+                <option value="low">Low Priority</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wsTaskSkills">Required Skills (comma separated)</label>
+            <input type="text" id="wsTaskSkills" class="input-control" placeholder="Python, FastAPI, WebSocket">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-silver btn-sm" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Add Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/workspace.js"></script>
+</body>
+</html>

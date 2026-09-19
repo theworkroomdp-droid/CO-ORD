@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — CO-ORD | AI-Powered Collaborative Task Management</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+      <div id="topbar-container"></div>
+
+      <div class="page-body">
+        
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-silver-bright);">Team Projects</h1>
+            <p style="font-size: 0.92rem; color: var(--text-silver-secondary); margin-top: 4px;">
+              Active team initiatives, hackathons, and collaborative research hubs.
+            </p>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('newProjectModal').classList.add('active')">
+            <i class="fa-solid fa-plus"></i>
+            <span>New Project</span>
+          </button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px;" id="projectsGridContainer"></div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- New Project Modal -->
+  <div class="modal-backdrop" id="newProjectModal">
+    <div class="modal" style="max-width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-folder-plus" style="color: var(--deep-blue-400);"></i>
+          <span>Create New Project</span>
+        </div>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <form id="newProjectForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="newProjName">Project Name</label>
+            <input type="text" id="newProjName" class="input-control" placeholder="e.g. HealthTech AI Hackathon" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newProjDesc">Description</label>
+            <textarea id="newProjDesc" class="input-control" rows="3" placeholder="Brief outline of the project scope and team objectives..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newProjDueDate">Target Due Date</label>
+            <input type="text" id="newProjDueDate" class="input-control" placeholder="e.g. Oct 28, 2026">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-silver btn-sm" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/projects.js"></script>
+</body>
+</html>
