@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "id": 1,
+        "title": "FastAPI Documentation",
+        "url": "https://fastapi.tiangolo.com/",
+        "shared_by": 1
+    }
+]

@@ -9,9 +9,13 @@ class User(BaseModel):
 
 
 class Project(BaseModel):
-    id: int
-    name: str
-    description: str
+    id: int | None = None
+    title: str
+    deadline: str
+    objective: str
+    requiredInfo: str
+    activeSprint: str
+    bountyPool: int
 
 
 class Task(BaseModel):

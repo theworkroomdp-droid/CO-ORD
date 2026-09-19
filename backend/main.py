@@ -1,31 +1,18 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 from database import read_data, write_data
 
+from mongodb import (
+    users_collection,
+    projects_collection,
+    tasks_collection,
+    resources_collection
+)
 
 app = FastAPI(title="CO-ORD API")
 
 
 # =========================
-# Helper Functions
-# =========================
-
-def get_next_id(items):
-    """Generate the next numeric ID."""
-    if not items:
-        return 1
-
-    numeric_ids = [
-        item["id"]
-        for item in items
-        if isinstance(item.get("id"), int)
-    ]
-
-    return max(numeric_ids, default=0) + 1
-
-
-# =========================
-# Basic
+# BASIC
 # =========================
 
 @app.get("/")
@@ -41,23 +28,8 @@ def home():
 
 @app.get("/users")
 def get_users():
-    return read_data("users.json")
-
-
-@app.post("/users")
-def create_user(user: dict):
-    users = read_data("users.json")
-
-    user["id"] = get_next_id(users)
-
-    users.append(user)
-
-    write_data("users.json", users)
-
-    return {
-        "message": "User created successfully",
-        "user": user
-    }
+    users = list(users_collection.find({}, {"_id": 0}))
+    return users
 
 
 # =========================
@@ -66,18 +38,23 @@ def create_user(user: dict):
 
 @app.get("/projects")
 def get_projects():
-    return read_data("projects.json")
+    projects = list(projects_collection.find({}, {"_id": 0}))
+    return projects
 
 
 @app.post("/projects")
 def create_project(project: dict):
-    projects = read_data("projects.json")
 
-    project["id"] = get_next_id(projects)
+    last_project = projects_collection.find_one(
+        sort=[("id", -1)]
+    )
 
-    projects.append(project)
+    if last_project:
+        project["id"] = last_project["id"] + 1
+    else:
+        project["id"] = 1
 
-    write_data("projects.json", projects)
+    projects_collection.insert_one(project)
 
     return {
         "message": "Project created successfully",
@@ -91,18 +68,23 @@ def create_project(project: dict):
 
 @app.get("/tasks")
 def get_tasks():
-    return read_data("tasks.json")
+    tasks = list(tasks_collection.find({}, {"_id": 0}))
+    return tasks
 
 
 @app.post("/tasks")
 def create_task(task: dict):
-    tasks = read_data("tasks.json")
 
-    task["id"] = get_next_id(tasks)
+    last_task = tasks_collection.find_one(
+        sort=[("id", -1)]
+    )
 
-    tasks.append(task)
+    if last_task:
+        task["id"] = last_task["id"] + 1
+    else:
+        task["id"] = 1
 
-    write_data("tasks.json", tasks)
+    tasks_collection.insert_one(task)
 
     return {
         "message": "Task created successfully",
@@ -112,23 +94,27 @@ def create_task(task: dict):
 
 @app.patch("/tasks/{task_id}")
 def update_task(task_id: int, updates: dict):
-    tasks = read_data("tasks.json")
 
-    for task in tasks:
-        if task["id"] == task_id:
-            task.update(updates)
-
-            write_data("tasks.json", tasks)
-
-            return {
-                "message": "Task updated successfully",
-                "task": task
-            }
-
-    raise HTTPException(
-        status_code=404,
-        detail="Task not found"
+    result = tasks_collection.update_one(
+        {"id": task_id},
+        {"$set": updates}
     )
+
+    if result.matched_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found"
+        )
+
+    updated_task = tasks_collection.find_one(
+        {"id": task_id},
+        {"_id": 0}
+    )
+
+    return {
+        "message": "Task updated successfully",
+        "task": updated_task
+    }
 
 
 # =========================
@@ -137,4 +123,5 @@ def update_task(task_id: int, updates: dict):
 
 @app.get("/resources")
 def get_resources():
-    return read_data("resources.json")
+    resources = list(resources_collection.find({}, {"_id": 0}))
+    return resources
