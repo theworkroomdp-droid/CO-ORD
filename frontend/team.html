@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO-ORD | Team Capacity & Skill Radar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-16 relative">
+
+    <!-- Top Navigation HUD -->
+    <header class="h-24 bg-white/70 backdrop-blur-2xl border-b-2 border-white/80 flex items-center justify-between px-6 sm:px-10 z-30 shrink-0 sticky top-0 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.03)]">
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="group flex items-center gap-3 bg-white border-2 border-slate-100 px-5 py-2.5 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all">
+                <span class="text-slate-400 group-hover:-translate-x-1 transition-transform font-black">←</span>
+                <span class="text-xs font-black text-slate-700 uppercase tracking-widest">Back to Hub</span>
+            </a>
+            <div class="hidden md:flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-2xl font-black text-sm tracking-wider">
+                <span class="text-indigo-400">❖</span> CO-ORD
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4 sm:gap-8">
+            <a href="active.html" class="flex items-center gap-2.5 bg-gradient-to-r from-amber-50 to-indigo-50 border-2 border-indigo-100/80 px-4 py-2 rounded-2xl shadow-sm">
+                <span class="text-xl">🪙</span>
+                <span class="hud-tokens font-black text-slate-900 text-sm tracking-tight">150 Tokens</span>
+            </a>
+
+            <div class="flex items-center gap-3 border-l-2 border-slate-200/80 pl-4 sm:pl-6">
+                <div class="text-right hidden sm:block">
+                    <div class="hud-user-name font-black text-sm text-slate-900">Anisha S</div>
+                    <div class="hud-user-role text-[10px] font-black text-slate-400 uppercase tracking-widest">Frontend Lead</div>
+                </div>
+                <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl border-2 border-white shadow-md hud-user-avatar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <div class="px-6 sm:px-10 py-6 max-w-7xl mx-auto w-full shrink-0 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-2 text-xs font-black text-emerald-600 uppercase tracking-widest mb-1.5">
+                <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                Cluster Telemetry & Capacity Radar
+            </div>
+            <h1 class="font-black text-3xl sm:text-4xl text-slate-900 tracking-tight">
+                Team Bandwidth & Skill Matrix
+            </h1>
+            <p class="text-slate-500 font-bold text-xs sm:text-sm mt-1">
+                Real-time node utilization, verified skills vectors, and automated vLLM task routing profiles.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button onclick="triggerAiRebalanceToast()" class="tactile-btn tactile-btn-dark px-4 py-3 text-xs flex items-center gap-2">
+                <span>⚡ Rebalance via vLLM</span>
+            </button>
+            <a href="team-manage.html" class="tactile-btn tactile-btn-primary px-5 py-3 text-xs flex items-center gap-2">
+                <span>+ Manage & Add Nodes</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CLUSTER OVERVIEW TELEMETRY BENTO -->
+    <div class="px-6 sm:px-10 max-w-7xl mx-auto w-full mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            
+            <div class="igloo-bento-subtle p-5 bg-white">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Active Nodes</span>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-total-nodes" class="font-black text-3xl text-slate-900">5</span>
+                    <span class="text-xs font-bold text-emerald-600">100% Online</span>
+                </div>
+            </div>
+
+            <div class="igloo-bento-subtle p-5 bg-white">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Avg Cluster Load</span>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-avg-load" class="font-black text-3xl text-indigo-600">52%</span>
+                    <span class="text-xs font-bold text-slate-500">Nominal</span>
+                </div>
+            </div>
+
+            <div class="igloo-bento-subtle p-5 bg-white">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">In-Flight Tasks</span>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-active-tasks" class="font-black text-3xl text-purple-600">3</span>
+                    <span class="text-xs font-bold text-slate-500">Dispatched</span>
+                </div>
+            </div>
+
+            <div class="igloo-bento-subtle p-5 bg-white">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">vLLM Routing Match</span>
+                <div class="flex items-baseline gap-2">
+                    <span class="font-black text-3xl text-emerald-600">96.4%</span>
+                    <span class="text-xs font-bold text-slate-500">Vector Cosine</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MAIN DYNAMIC TEAM GRID -->
+    <main class="flex-1 px-6 sm:px-10 max-w-7xl mx-auto w-full z-10 relative">
+        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Dynamically populated from CoordStore.getTeam() -->
+        </div>
+    </main>
+
+    <!-- REBALANCE TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-8 right-8 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="igloo-bento px-6 py-4 bg-slate-900 text-white flex items-center gap-3 shadow-2xl border-2 border-slate-700">
+            <span class="text-xl">⚡</span>
+            <div>
+                <div class="font-black text-xs uppercase tracking-wider text-emerald-400">vLLM Neural Balancer Executed</div>
+                <div class="text-[11px] font-bold text-slate-300">Workload capacities recalculated across all active cluster nodes.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="coord-store.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTeamRadar();
+        });
+
+        function renderTeamRadar() {
+            CoordStore.recalculateMemberCapacities();
+            const team = CoordStore.getTeam();
+            const tasks = CoordStore.getTasks();
+            const grid = document.getElementById('team-grid');
+            if (!grid) return;
+
+            grid.innerHTML = "";
+
+            let totalLoad = 0;
+            let activeTasksCount = tasks.filter(t => t.status !== 'completed').length;
+
+            team.forEach(member => {
+                const memberTasks = tasks.filter(t => t.assignedTo === member.id && t.status !== 'completed');
+                totalLoad += (member.capacity || 0);
+
+                // Capacity styling
+                let barColor = 'from-emerald-400 to-teal-500';
+                let statusBadge = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                let capacityStatusText = 'Available';
+
+                if (member.capacity >= 80) {
+                    barColor = 'from-rose-500 to-red-600';
+                    statusBadge = 'bg-rose-50 text-rose-700 border-rose-200';
+                    capacityStatusText = 'High Load';
+                } else if (member.capacity >= 40) {
+                    barColor = 'from-amber-400 to-orange-500';
+                    statusBadge = 'bg-amber-50 text-amber-700 border-amber-200';
+                    capacityStatusText = 'Optimal';
+                }
+
+                const card = document.createElement('div');
+                card.className = "igloo-bento p-8 flex flex-col justify-between bg-white relative group";
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Header with Avatar and Capacity Pill -->
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-tr ${member.avatarGradient || 'from-indigo-500 to-purple-500'} rounded-3xl border-4 border-white shadow-md flex items-center justify-center text-white font-black text-2xl">
+                                ${member.name.charAt(0)}
+                            </div>
+                            <span class="${statusBadge} border px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider shadow-sm">
+                                ${member.capacity || 20}% Load
+                            </span>
+                        </div>
+
+                        <!-- Name and Role -->
+                        <h3 class="font-black text-2xl text-slate-900 mb-0.5">${member.name}</h3>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">${member.role}</p>
+                        
+                        <!-- Workload Capacity Bar -->
+                        <div class="mb-6">
+                            <div class="flex justify-between text-xs font-black text-slate-600 mb-2">
+                                <span>Bandwidth Capacity</span>
+                                <span class="uppercase tracking-wider text-[11px]">${capacityStatusText}</span>
+                            </div>
+                            <div class="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="h-full bg-gradient-to-r ${barColor} rounded-full transition-all duration-700" style="width: ${member.capacity || 20}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Skill Matrix Pills -->
+                        <div class="mb-6">
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2.5">
+                                Verified Skill Matrix (vLLM Vectors)
+                            </span>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${(member.skills || []).map(skill => `
+                                    <span class="bg-slate-50 border border-slate-200/90 text-slate-700 text-xs font-black px-3 py-1 rounded-xl shadow-sm hover:border-indigo-300 transition-colors">
+                                        ${skill}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Current In-Flight Tasks -->
+                        <div class="mb-4">
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">
+                                Active In-Flight Micro-Tasks (${memberTasks.length})
+                            </span>
+                            <div class="space-y-1.5">
+                                ${memberTasks.length > 0 ? memberTasks.map(t => `
+                                    <div class="text-[11px] font-bold text-slate-700 bg-slate-50/80 border border-slate-100 px-3 py-1.5 rounded-xl truncate flex items-center gap-2">
+                                        <span class="text-indigo-500">❖</span> ${t.title}
+                                    </div>
+                                `).join('') : `
+                                    <div class="text-[11px] font-bold text-slate-400 italic px-2 py-1">No pending sprint tasks assigned.</div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Details -->
+                    <div class="border-t border-slate-100 pt-4 flex justify-between items-center text-xs font-bold text-slate-500 mt-4">
+                        <span class="text-slate-400 text-[11px]">${member.email}</span>
+                        <a href="team-manage.html" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl font-black text-[10px] uppercase tracking-wider transition-colors">
+                            Configure Node →
+                        </a>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Update Header Stats
+            document.getElementById('stat-total-nodes').innerText = team.length;
+            const avgLoad = team.length > 0 ? Math.round(totalLoad / team.length) : 0;
+            document.getElementById('stat-avg-load').innerText = `${avgLoad}%`;
+            document.getElementById('stat-active-tasks').innerText = activeTasksCount;
+        }
+
+        function triggerAiRebalanceToast() {
+            CoordStore.recalculateMemberCapacities();
+            renderTeamRadar();
+
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
