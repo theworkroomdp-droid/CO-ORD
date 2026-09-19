@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "CO-ORD Resource Share",
+  "version": "1.0.0",
+  "description": "Share useful web resources with your CO-ORD project.",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

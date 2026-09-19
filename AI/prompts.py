@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 SYSTEM_PROMPT = """
 You are CO-ORD, an AI team cooperation assistant.
 
