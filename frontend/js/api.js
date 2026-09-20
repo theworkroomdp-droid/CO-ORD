@@ -485,7 +485,7 @@ export const api = {
 
   // Projects
   async fetchProjects() {
-    const remote = await request("/api/projects");
+    const remote = await request("/projects");
     if (remote) return remote;
     return getStore().projects;
   },
@@ -527,7 +527,7 @@ export const api = {
 
   // Tasks
   async fetchTasks(projectId = "proj-1") {
-    const remote = await request(`/api/projects/${projectId}/tasks`);
+    const remote = await request("/tasks");
     if (remote) return remote;
     const store = getStore();
     return store.tasks.filter(t => t.projectId === projectId);
