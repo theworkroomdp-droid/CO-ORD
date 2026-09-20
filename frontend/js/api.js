@@ -572,7 +572,7 @@ export const api = {
   },
 
   async createTask(taskData) {
-    const remote = await request("/api/tasks", {
+    const remote = await request("/tasks", {
       method: "POST",
       body: JSON.stringify(taskData)
     });
