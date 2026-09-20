@@ -8,5 +8,14 @@
             "UI/UX"
         ],
         "id": 1
+    },
+    {
+        "name": "Test User",
+        "email": "test@example.com",
+        "skills": [
+            "Python",
+            "SQL"
+        ],
+        "id": 2
     }
 ]

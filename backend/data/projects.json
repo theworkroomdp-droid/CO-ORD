@@ -7,5 +7,25 @@
         "activeSprint": "Sprint 04 - Alpha Orchestration",
         "bountyPool": 150,
         "id": 1
+    },
+    {
+        "name": "CO-ORD Test Project",
+        "description": "Testing project creation",
+        "status": "active",
+        "deadline": "2026-10-01",
+        "members": [
+            1
+        ],
+        "id": 2
+    },
+    {
+        "name": "CO-ORD Test Project",
+        "description": "Testing project creation",
+        "status": "active",
+        "deadline": "2026-10-01",
+        "members": [
+            1
+        ],
+        "id": 3
     }
 ]

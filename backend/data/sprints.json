@@ -1,0 +1,28 @@
+[
+    {
+        "id": "sprint-1",
+        "projectId": "proj-1",
+        "name": "Sprint 1 — Core Features",
+        "goal": "Complete the authentication system, Kanban board, and initial AI integration.",
+        "status": "active",
+        "startDate": "Sep 18, 2026",
+        "endDate": "Sep 22, 2026",
+        "taskIds": ["task-101", "task-102", "task-103", "task-104"],
+        "plannedCount": 4,
+        "completedCount": 1,
+        "velocity": 25
+    },
+    {
+        "id": "sprint-2",
+        "projectId": "proj-1",
+        "name": "Sprint 2 — Polish & Extras",
+        "goal": "Chrome Extension, presentation deck, and database query optimization.",
+        "status": "planned",
+        "startDate": "Sep 23, 2026",
+        "endDate": "Sep 27, 2026",
+        "taskIds": ["task-105", "task-106", "task-107"],
+        "plannedCount": 3,
+        "completedCount": 0,
+        "velocity": 0
+    }
+]

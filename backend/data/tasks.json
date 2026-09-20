@@ -4,7 +4,7 @@
         "domain": "Backend",
         "bounty": 40,
         "assignedTo": 1,
-        "status": "pending",
+        "status": "completed",
         "vllmRationale": "Assigned based on backend skills.",
         "subtasks": [
             {
@@ -17,5 +17,15 @@
             }
         ],
         "id": 1
+    },
+    {
+        "title": "Build Login Page",
+        "description": "Create the login page for CO-ORD",
+        "status": "pending",
+        "priority": "high",
+        "project_id": 1,
+        "assigned_to": 1,
+        "deadline": "2026-10-01",
+        "id": 2
     }
 ]
