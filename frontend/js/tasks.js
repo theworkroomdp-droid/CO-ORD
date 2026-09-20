@@ -1,11 +1,5 @@
-task.js
-/**
- * CO-ORD — Tasks Page Controller (Kanban, List, Filtering, Task Details, AI Help Trigger)
- */
-
 import { api } from "./api.js";
 import { renderSidebar, renderTopbar, showToast, setupModal, openModal, closeModal } from "./components.js";
-
 let allTasks = [];
 let filteredTasks = [];
 let currentFilter = "all";
@@ -37,8 +31,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function loadTasks() {
+  console.log("Loading tasks from FastAPI...");
+
   allTasks = await api.fetchTasks("proj-1");
+
+  console.log("Tasks received:", allTasks);
+
+  if (!Array.isArray(allTasks)) {
+    allTasks = [];
+  }
+
+  allTasks = allTasks.map(task => ({
+    ...task,
+
+    // Backend uses assignedTo
+    // Frontend uses assigneeName
+    assigneeName: task.assigneeName || task.assignedTo || "Unassigned",
+
+    // Give missing fields safe default values
+    dueDate: task.dueDate || "No deadline",
+    requiredSkills: task.requiredSkills || [],
+    priority: task.priority || "normal",
+
+    // Convert backend status to frontend Kanban status
+    status: task.status === "in-progress"
+      ? "inprogress"
+      : (task.status || "todo")
+  }));
+
   filteredTasks = [...allTasks];
+
   renderView();
 }
 
