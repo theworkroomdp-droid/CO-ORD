@@ -257,9 +257,13 @@ function initEventListeners() {
       const status = document.getElementById("newTaskStatus").value;
       const skillsStr = document.getElementById("newTaskSkills").value;
 
-    if (!title) return;
+if (!title) return;
 
-      const result = await api.createTask({
+const skills = skillsStr
+  ? skillsStr.split(",").map(s => s.trim())
+  : ["General"];
+
+const result = await api.createTask({
   title,
   description: desc,
   priority,
@@ -268,6 +272,7 @@ function initEventListeners() {
 });
 
 console.log("CREATE TASK RESULT:", result);
+
       closeModal("createTaskModal");
       form.reset();
       await loadTasks();
