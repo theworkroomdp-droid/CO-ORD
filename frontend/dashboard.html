@@ -1,184 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — CO-ORD | AI-Powered Collaborative Task Management</title>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/responsive.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
   <div class="app-container">
+
     <!-- Reusable Sidebar -->
     <div id="sidebar-container"></div>
 
     <!-- Main Content Area -->
     <main class="main-content">
+
       <!-- Reusable Topbar -->
       <div id="topbar-container"></div>
 
       <!-- Page Content -->
       <div class="page-body dashboard-page">
+
+        <!-- Welcome Section -->
         <section class="dashboard-welcome">
           <div class="welcome-text">
             <p class="dashboard-eyebrow">WORKSPACE OVERVIEW</p>
-            <h1>Good morning, <span class="silver-text" id="userGreetingName">Alex</span></h1>
+
+            <h1>
+              <span id="dashboardGreeting">Good morning</span>,
+              <span class="silver-text" id="userGreetingName">Alex</span>
+            </h1>
+
             <p>Your projects, tasks, and priorities in one place.</p>
           </div>
+
           <div class="welcome-actions">
-            <button class="btn btn-silver btn-sm" onclick="document.getElementById('createTaskModal').classList.add('active')">
-              <i class="fa-solid fa-plus"></i><span>Add Task</span>
+
+            <button class="btn btn-silver btn-sm"
+              onclick="document.getElementById('createTaskModal').classList.add('active')">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Task</span>
             </button>
+
             <a href="workspace.html" class="btn btn-primary btn-sm">
-              <i class="fa-solid fa-layer-group"></i><span>Workspace</span>
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Workspace</span>
             </a>
+
           </div>
         </section>
 
+
+        <!-- Dashboard Statistics -->
         <section class="dashboard-stats-minimal">
+
           <div class="minimal-stat">
             <span>Active Tasks</span>
             <strong id="statTotalTasks">0</strong>
           </div>
+
           <div class="minimal-stat">
             <span>Completed</span>
             <strong id="statCompleted">0</strong>
           </div>
+
           <div class="minimal-stat">
             <span>Progress</span>
             <strong id="statTeamProgress">0%</strong>
           </div>
+
         </section>
 
+
+        <!-- Current Workspace + Upcoming Tasks -->
         <section class="dashboard-main-minimal">
+
           <div class="card dashboard-current-workspace">
+
             <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-layer-group"></i><span>Current Workspace</span></div>
-              <a href="workspace.html" class="btn btn-ghost btn-sm">Open &rarr;</a>
+
+              <div class="card-title">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Current Workspace</span>
+              </div>
+
+              <a href="workspace.html" class="btn btn-ghost btn-sm">
+                Open &rarr;
+              </a>
+
             </div>
+
             <div class="workspace-summary">
+
               <div>
                 <h2 id="dashboardProjectName">CO-ORD Hackathon</h2>
-                <p id="dashboardProjectDesc">Your active project workspace.</p>
+                <p id="dashboardProjectDesc">
+                  Your active project workspace.
+                </p>
               </div>
-              <span class="workspace-progress-value" id="projectProgressPercent">0%</span>
+
+              <span class="workspace-progress-value" id="projectProgressPercent">
+                0%
+              </span>
+
             </div>
+
             <div class="progress-bar-linear">
               <div class="progress-fill" id="projectProgressFill" style="width:0%"></div>
             </div>
+
             <div class="workspace-summary-meta">
-              <span id="projectTasksRatio">0 of 0 tasks completed</span>
-              <span id="dashboardProjectDue">No deadline set</span>
+
+              <span id="projectTasksRatio">
+                0 of 0 tasks completed
+              </span>
+
+              <span id="dashboardProjectDue">
+                No deadline set
+              </span>
+
             </div>
+
           </div>
+
 
           <div class="card dashboard-upcoming">
+
             <div class="card-header">
-              <div class="card-title"><i class="fa-regular fa-clock"></i><span>Upcoming Tasks</span></div>
-              <a href="tasks.html" class="btn btn-ghost btn-sm">View all &rarr;</a>
+
+              <div class="card-title">
+                <i class="fa-regular fa-clock"></i>
+                <span>Upcoming Tasks</span>
+              </div>
+
+              <a href="tasks.html" class="btn btn-ghost btn-sm">
+                View all &rarr;
+              </a>
+
             </div>
+
             <div id="dashboardUpcomingTasks" class="upcoming-task-list"></div>
+
           </div>
+
         </section>
+
+
+        <!-- AI Suggestion Inline Card -->
+        <div id="dashboardAISuggestionCard" style="
+            display:none;
+            background:linear-gradient(
+              135deg,
+              rgba(56,189,248,0.1) 0%,
+              rgba(37,99,235,0.15) 100%
+            );
+            border:1px solid rgba(56,189,248,0.35);
+            border-radius:12px;
+            padding:16px 20px;
+            margin-bottom:20px;
+          "></div>
+
+
+        <!-- Sprint + Performance Analytics -->
+        <section style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+            margin-top:20px;
+          ">
+
+          <!-- ACTIVE SPRINT -->
+          <div class="card" id="dashboardSprintWidget">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <i class="fa-solid fa-rocket" style="color:#38bdf8"></i>
+
+                <span>Active Sprint</span>
+
+              </div>
+
+              <a href="sprints.html" class="btn btn-ghost btn-sm">
+                Sprint Board &rarr;
+              </a>
+
+            </div>
+
+            <div style="
+                color:var(--text-silver-muted);
+                font-size:0.88rem
+              ">
+              Loading sprint data...
+            </div>
+
+          </div>
+
+
+          <!-- PERFORMANCE ANALYTICS -->
+          <div class="card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <i class="fa-solid fa-chart-line" style="color:#34d399"></i>
+
+                <span>Performance Analytics</span>
+
+              </div>
+
+              <a href="performance.html" class="btn btn-ghost btn-sm">
+                View Report &rarr;
+              </a>
+
+            </div>
+
+            <div style="
+                display:flex;
+                flex-direction:column;
+                gap:10px;
+                padding-top:4px
+              " id="dashboardQuickAnalytics">
+
+              <div style="
+                  font-size:0.84rem;
+                  color:var(--text-silver-secondary)
+                ">
+                Loading your performance data...
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- AI Task Allocation Modal -->
+        <div class="modal-backdrop" id="aiAllocationModal">
+
+          <div class="modal">
+
+            <div class="modal-header">
+
+              <div class="modal-title">
+
+                <i class="fa-solid fa-wand-magic-sparkles" style="color:#38bdf8;"></i>
+
+                <span>AI Task Allocation Review</span>
+
+              </div>
+
+              <button class="modal-close" data-modal-close>
+                &times;
+              </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+              <p style="
+                  font-size:0.88rem;
+                  color:var(--text-silver-secondary);
+                  margin-bottom:16px;
+                ">
+                CO-ORD AI analyzed task requirements and member
+                workloads to suggest this allocation. The final
+                decision remains with your team.
+              </p>
+
+
+              <div style="
+                  background:var(--bg-surface);
+                  border:1px solid var(--border-silver);
+                  border-radius:var(--radius-sm);
+                  padding:16px;
+                  display:flex;
+                  flex-direction:column;
+                  gap:12px;
+                ">
+
+                <div>
+
+                  <span class="text-xs text-muted" style="text-transform:uppercase;">
+                    Task
+                  </span>
+
+                  <div style="
+                      font-size:1.05rem;
+                      font-weight:700;
+                      color:var(--text-silver-bright);
+                    " id="modalTaskTitle">
+                    Optimize async database queries
+                  </div>
+
+                  <div style="
+                      display:flex;
+                      gap:6px;
+                      margin-top:6px;
+                    " id="modalTaskSkills"></div>
+
+                </div>
+
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:12px;
+                    padding-top:10px;
+                    border-top:1px solid var(--border-subtle);
+                  ">
+
+                  <div>
+
+                    <span class="text-xs text-muted">
+                      Current Assignee
+                    </span>
+
+                    <div style="
+                        font-weight:600;
+                        color:var(--text-silver-primary);
+                      " id="modalCurrentAssignee">
+                      Unassigned
+                    </div>
+
+                  </div>
+
+
+                  <div>
+
+                    <span class="text-xs text-muted">
+                      AI Suggested Member
+                    </span>
+
+                    <div style="
+                        font-weight:700;
+                        color:#34d399;
+                        display:flex;
+                        align-items:center;
+                        gap:6px;
+                      ">
+
+                      <span id="modalSuggestedMember">
+                        Rahul
+                      </span>
+
+                      <span class="badge" style="
+                          background:rgba(16,185,129,0.2);
+                          color:#34d399;
+                        " id="modalMatchScore">
+                        94% Match
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div style="
+                    padding:10px 12px;
+                    background:rgba(5,7,14,0.6);
+                    border-left:3px solid #38bdf8;
+                    border-radius:4px;
+                    font-size:0.84rem;
+                    color:var(--text-silver-secondary);
+                  ">
+
+                  <i class="fa-solid fa-brain" style="
+                      color:#38bdf8;
+                      margin-right:6px;
+                    "></i>
+
+                  <span id="modalAiReason">
+                    Rahul has deep Python and FastAPI experience
+                    and moderate capacity.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+              <button class="btn btn-silver btn-sm" id="rejectAllocationBtn">
+                Dismiss
+              </button>
+
+              <button class="btn btn-primary btn-sm" id="acceptAllocationBtn">
+
+                <i class="fa-solid fa-check"></i>
+
+                <span>
+                  Accept &amp; Assign Member
+                </span>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Quick Create Task Modal -->
+        <div class="modal-backdrop" id="createTaskModal">
+
+          <div class="modal">
+
+            <div class="modal-header">
+
+              <div class="modal-title">
+
+                <i class="fa-solid fa-plus" style="color:var(--deep-blue-400);"></i>
+
+                <span>Create New Task</span>
+
+              </div>
+
+              <button class="modal-close" data-modal-close>
+                &times;
+              </button>
+
+            </div>
+
+
+            <form id="quickCreateTaskForm">
+
+              <div class="modal-body">
+
+                <div class="form-group">
+
+                  <label class="form-label" for="quickTaskTitle">
+                    Task Title
+                  </label>
+
+                  <input type="text" id="quickTaskTitle" class="input-control"
+                    placeholder="e.g. Set up WebSocket connection" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label class="form-label" for="quickTaskPriority">
+                    Priority
+                  </label>
+
+                  <select id="quickTaskPriority" class="input-control">
+
+                    <option value="medium">
+                      Medium Priority
+                    </option>
+
+                    <option value="high">
+                      High Priority
+                    </option>
+
+                    <option value="urgent">
+                      Urgent Priority
+                    </option>
+
+                    <option value="low">
+                      Low Priority
+                    </option>
+
+                  </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label class="form-label" for="quickTaskSkills">
+                    Required Skills (comma separated)
+                  </label>
+
+                  <input type="text" id="quickTaskSkills" class="input-control" placeholder="Python, FastAPI, Docker">
+
+                </div>
+
+              </div>
+
+
+              <div class="modal-footer">
+
+                <button type="button" class="btn btn-silver btn-sm" data-modal-close>
+                  Cancel
+                </button>
+
+                <button type="submit" class="btn btn-primary btn-sm">
+                  Create Task
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
       </div>
     </main>
+
   </div>
 
-  <!-- AI Task Allocation Modal -->
-  <div class="modal-backdrop" id="aiAllocationModal">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">
-          <i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i>
-          <span>AI Task Allocation Review</span>
-        </div>
-        <button class="modal-close" data-modal-close>&times;</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 0.88rem; color: var(--text-silver-secondary); margin-bottom: 16px;">
-          CO-ORD AI analyzed task requirements and member workloads to suggest this allocation. The final decision remains with your team.
-        </p>
-
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-silver); border-radius: var(--radius-sm); padding: 16px; display: flex; flex-direction: column; gap: 12px;">
-          <div>
-            <span class="text-xs text-muted" style="text-transform: uppercase;">Task</span>
-            <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-silver-bright);" id="modalTaskTitle">Optimize async database queries</div>
-            <div style="display: flex; gap: 6px; margin-top: 6px;" id="modalTaskSkills"></div>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
-            <div>
-              <span class="text-xs text-muted">Current Assignee</span>
-              <div style="font-weight: 600; color: var(--text-silver-primary);" id="modalCurrentAssignee">Unassigned</div>
-            </div>
-            <div>
-              <span class="text-xs text-muted">AI Suggested Member</span>
-              <div style="font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 6px;">
-                <span id="modalSuggestedMember">Rahul</span>
-                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;" id="modalMatchScore">94% Match</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="padding: 10px 12px; background: rgba(5, 7, 14, 0.6); border-left: 3px solid #38bdf8; border-radius: 4px; font-size: 0.84rem; color: var(--text-silver-secondary);">
-            <i class="fa-solid fa-brain" style="color: #38bdf8; margin-right: 6px;"></i>
-            <span id="modalAiReason">Rahul has deep Python and FastAPI experience and moderate capacity.</span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-silver btn-sm" id="rejectAllocationBtn">Dismiss</button>
-        <button class="btn btn-primary btn-sm" id="acceptAllocationBtn">
-          <i class="fa-solid fa-check"></i>
-          <span>Accept &amp; Assign Member</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Create Task Modal -->
-  <div class="modal-backdrop" id="createTaskModal">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">
-          <i class="fa-solid fa-plus" style="color: var(--deep-blue-400);"></i>
-          <span>Create New Task</span>
-        </div>
-        <button class="modal-close" data-modal-close>&times;</button>
-      </div>
-      <form id="quickCreateTaskForm">
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label" for="quickTaskTitle">Task Title</label>
-            <input type="text" id="quickTaskTitle" class="input-control" placeholder="e.g. Set up WebSocket connection" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="quickTaskPriority">Priority</label>
-            <select id="quickTaskPriority" class="input-control">
-              <option value="medium">Medium Priority</option>
-              <option value="high">High Priority</option>
-              <option value="urgent">Urgent Priority</option>
-              <option value="low">Low Priority</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="quickTaskSkills">Required Skills (comma separated)</label>
-            <input type="text" id="quickTaskSkills" class="input-control" placeholder="Python, FastAPI, Docker">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-silver btn-sm" data-modal-close>Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm">Create Task</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <script type="module" src="js/dashboard.js"></script>
+
 </body>
+
 </html>

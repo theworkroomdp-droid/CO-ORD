@@ -314,6 +314,44 @@ const DEFAULT_STORE = {
       reason: "Arjun currently has 5 active tasks (High Workload). Anu has frontend design experience and balanced workload."
     }
   ],
+  sprints: [
+    {
+      id: "sprint-1",
+      projectId: "proj-1",
+      name: "Sprint 1 — Core Features",
+      goal: "Complete the authentication system, Kanban board, and initial AI integration.",
+      status: "active",
+      startDate: "Sep 18, 2026",
+      endDate: "Sep 22, 2026",
+      taskIds: ["task-101", "task-102", "task-103", "task-104"],
+      plannedCount: 4,
+      completedCount: 1,
+      velocity: 25
+    },
+    {
+      id: "sprint-2",
+      projectId: "proj-1",
+      name: "Sprint 2 — Polish & Extras",
+      goal: "Chrome Extension, presentation deck, and database query optimization.",
+      status: "planned",
+      startDate: "Sep 23, 2026",
+      endDate: "Sep 27, 2026",
+      taskIds: ["task-105", "task-106", "task-107"],
+      plannedCount: 3,
+      completedCount: 0,
+      velocity: 0
+    }
+  ],
+  performanceLog: [
+    { memberId: "mem-1", memberName: "Anu",   week: "Sep W1", completed: 2, added: 3 },
+    { memberId: "mem-2", memberName: "Rahul", week: "Sep W1", completed: 1, added: 3 },
+    { memberId: "mem-3", memberName: "Meera", week: "Sep W1", completed: 2, added: 1 },
+    { memberId: "mem-4", memberName: "Arjun", week: "Sep W1", completed: 3, added: 5 },
+    { memberId: "mem-1", memberName: "Anu",   week: "Sep W2", completed: 3, added: 2 },
+    { memberId: "mem-2", memberName: "Rahul", week: "Sep W2", completed: 2, added: 2 },
+    { memberId: "mem-3", memberName: "Meera", week: "Sep W2", completed: 1, added: 1 },
+    { memberId: "mem-4", memberName: "Arjun", week: "Sep W2", completed: 4, added: 3 }
+  ],
   workspaceMessages: [
     {
       id: "msg-1",
@@ -850,5 +888,141 @@ export const api = {
     store.workspaceMessages.push(newMsg);
     saveStore(store);
     return newMsg;
+  },
+
+  // Sprints
+  async fetchSprints(projectId = "proj-1") {
+    const remote = await request(`/api/projects/${projectId}/sprints`);
+    if (remote) return remote;
+    return getStore().sprints.filter(s => s.projectId === projectId);
+  },
+
+  async createSprint(sprintData) {
+    const remote = await request("/api/sprints", {
+      method: "POST",
+      body: JSON.stringify(sprintData)
+    });
+    if (remote) return remote;
+
+    const store = getStore();
+    const newSprint = {
+      id: "sprint-" + Date.now(),
+      projectId: sprintData.projectId || "proj-1",
+      name: sprintData.name,
+      goal: sprintData.goal || "",
+      status: sprintData.status || "planned",
+      startDate: sprintData.startDate || "TBD",
+      endDate: sprintData.endDate || "TBD",
+      taskIds: sprintData.taskIds || [],
+      plannedCount: (sprintData.taskIds || []).length,
+      completedCount: 0,
+      velocity: 0
+    };
+    store.sprints.push(newSprint);
+    saveStore(store);
+    return newSprint;
+  },
+
+  async updateSprint(sprintId, updates) {
+    const remote = await request(`/api/sprints/${sprintId}`, {
+      method: "PATCH",
+      body: JSON.stringify(updates)
+    });
+    if (remote) return remote;
+
+    const store = getStore();
+    const idx = store.sprints.findIndex(s => s.id === sprintId);
+    if (idx !== -1) {
+      store.sprints[idx] = { ...store.sprints[idx], ...updates };
+      saveStore(store);
+      return store.sprints[idx];
+    }
+    return null;
+  },
+
+  async addTaskToSprint(sprintId, taskId) {
+    const store = getStore();
+    const sprint = store.sprints.find(s => s.id === sprintId);
+    if (!sprint) return null;
+    if (!sprint.taskIds.includes(taskId)) {
+      sprint.taskIds.push(taskId);
+      sprint.plannedCount = sprint.taskIds.length;
+    }
+    saveStore(store);
+    return sprint;
+  },
+
+  async removeTaskFromSprint(sprintId, taskId) {
+    const store = getStore();
+    const sprint = store.sprints.find(s => s.id === sprintId);
+    if (!sprint) return null;
+    sprint.taskIds = sprint.taskIds.filter(id => id !== taskId);
+    sprint.plannedCount = sprint.taskIds.length;
+    saveStore(store);
+    return sprint;
+  },
+
+  // Performance Analytics
+  async getMemberPerformance(projectId = "proj-1") {
+    const store = getStore();
+    const tasks = store.tasks.filter(t => t.projectId === projectId);
+    const team = store.team;
+
+    return team.map(member => {
+      const memberTasks = tasks.filter(t => t.assigneeId === member.id);
+      const completedTasks = memberTasks.filter(t => t.status === "completed");
+      const activeTasks = memberTasks.filter(t => t.status !== "completed");
+      const weeklyLog = store.performanceLog.filter(l => l.memberId === member.id);
+      const totalCompleted = completedTasks.length + member.completedTasks;
+      const velocity = weeklyLog.reduce((sum, l) => sum + l.completed, 0);
+      const completionRate = memberTasks.length
+        ? Math.round((completedTasks.length / memberTasks.length) * 100)
+        : Math.round((member.completedTasks / Math.max(member.completedTasks + member.activeTasks, 1)) * 100);
+
+      return {
+        ...member,
+        totalCompleted,
+        velocity,
+        completionRate,
+        activeTasks: activeTasks.length || member.activeTasks,
+        weeklyLog,
+        skillScore: member.skills.length * 10
+      };
+    });
+  },
+
+  async getProjectAnalytics(projectId = "proj-1") {
+    const store = getStore();
+    const tasks = store.tasks.filter(t => t.projectId === projectId);
+    const sprints = store.sprints.filter(s => s.projectId === projectId);
+    const completed = tasks.filter(t => t.status === "completed").length;
+    const total = tasks.length;
+
+    const byStatus = {
+      backlog: tasks.filter(t => t.status === "backlog").length,
+      todo: tasks.filter(t => t.status === "todo").length,
+      inprogress: tasks.filter(t => t.status === "inprogress").length,
+      review: tasks.filter(t => t.status === "review").length,
+      completed
+    };
+
+    const byPriority = {
+      urgent: tasks.filter(t => t.priority === "urgent").length,
+      high: tasks.filter(t => t.priority === "high").length,
+      medium: tasks.filter(t => t.priority === "medium").length,
+      low: tasks.filter(t => t.priority === "low").length
+    };
+
+    const activeSprint = sprints.find(s => s.status === "active");
+
+    return {
+      total,
+      completed,
+      progress: total ? Math.round((completed / total) * 100) : 0,
+      byStatus,
+      byPriority,
+      activeSprint,
+      sprints
+    };
   }
 };
